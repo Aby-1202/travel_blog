@@ -3,7 +3,7 @@ from flask import request
 import sqlite3
 
 login_bp = Blueprint('login', __name__)
-@login_bp.route('/login', methods=['GET', 'POST'])
+@login_bp.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
