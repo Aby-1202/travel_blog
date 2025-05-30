@@ -10,11 +10,11 @@
 </head>
 <body>
     <div class="hedder">
-        <a href="{{url_for('task_page')}}">戻る</a>
+        <a href="{{url_for('login.login')}}">戻る</a>
         <h1>新規登録</h1>
     </div>
 
-    <form method="POST" action="./registing">
+    <form method="POST" action="/registration">
         <div class="input_data">
             ユーザ名: <input type="text" name="u_name" size="40"><br>
             email: <input type="text" name="email" size="40"><br>
@@ -23,6 +23,7 @@
             <input type="submit" value="登録">
         </div>
     </form>
+    
 
 </body>
 </html>

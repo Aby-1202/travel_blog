@@ -1,22 +1,33 @@
-from flask import Blueprint, render_template
-from flask import request
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import sqlite3
+from werkzeug.security import check_password_hash
 
 login_bp = Blueprint('login', __name__)
-@login_bp.route('/login', methods=['GET', 'POST'])
+
+@login_bp.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        
-        # データベース接続
-        conn = sqlite3.connect('travel_blog.db')
+
+        conn = sqlite3.connect('app.db')
         cursor = conn.cursor()
-        
-        # ユーザー認証
-        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+
+        # ユーザー情報を取得（username で検索）
+        cursor.execute("SELECT id, u_name, password_hash FROM users_table WHERE u_name = ?", (username,))
         user = cursor.fetchone()
-        
         conn.close()
-        
+
+        # 認証
+        if user and check_password_hash(user[2], password):
+            session['user_id'] = user[0]
+            session['username'] = user[1]
+            flash("ログインに成功しました")
+            return redirect(url_for('home.home'))  # ログイン後のページへリダイレクト
+        else:
+            flash("ユーザ名またはパスワードが間違っています")
+            return render_template('login.html')
+
     return render_template('login.html')
+
+
