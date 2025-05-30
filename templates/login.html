@@ -14,11 +14,12 @@
     </div>
 
     <div class="input_data">
-        <form method="POST" action="./logingin">
-            email: <input type="text" name="email" size="40"><br>
-            pw: <input type="password" name="password" size="40"><br>
-            <input type="submit">
+        <form method="POST">
+            ユーザ名: <input type="text" name="username" size="40"><br>
+            パスワード: <input type="password" name="password" size="40"><br>
+            <input type="submit" value="ログイン">
         </form>
+        
         <div>
             <a href="{{ url_for('registration.registration') }}">新規登録</a>
         </div>
