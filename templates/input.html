@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>旅行投稿フォーム</title>
+</head>
+<body>
+    <h1>旅の投稿</h1>
+    <form method="POST">
+        <label for="title">タイトル:</label><br>
+        <input type="text" id="title" name="title" maxlength="25" required><br><br>
+
+        <label for="location">場所:</label><br>
+        <input type="text" id="location" name="location" maxlength="25" required><br><br>
+
+        <label for="number">人数:</label><br>
+        <input type="number" id="number" name="human_number" min="1" required><br><br>
+
+        <label for="overview">概要:</label><br>
+        <textarea id="overview" name="overview" rows="4" cols="40"></textarea><br><br>
+
+        <button type="submit">投稿する</button>
+    </form>
+</body>
+</html>
