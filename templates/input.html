@@ -5,6 +5,11 @@
     <title>旅行投稿フォーム</title>
 </head>
 <body>
+
+    <h1>ようこそ、{{ username }} さん！</h1>
+
+    <a href="{{url_for('home.home')}}">ホームに戻る</a>
+
     <h1>旅の投稿</h1>
     <form method="POST">
         <label for="title">タイトル:</label><br>
