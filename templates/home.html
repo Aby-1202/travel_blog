@@ -7,7 +7,10 @@
 </head>
 <body>
     <h1>ようこそ、{{ username }} さん！</h1>
+    <p>あなたのユーザーIDは {{ user_id }} です。</p>
     <p>ここはホームページです。</p>
     <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+    <a href="{{ url_for('input.input')}}">旅を記録する</a>
+
 </body>
 </html>
