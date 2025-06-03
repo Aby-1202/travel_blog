@@ -1,6 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-import sqlite3
-from werkzeug.security import check_password_hash
+from flask import Blueprint, render_template, redirect, url_for, flash, session
 
 home_bp = Blueprint('home', __name__)
 
@@ -9,6 +7,8 @@ def home():
     if 'user_id' not in session:
         flash("ログインしてください")
         return redirect(url_for('login.login'))
+
     user_id = session['user_id']
     username = session.get('username', 'ゲスト')
-    return render_template('home.html', username=username)
+
+    return render_template('home.html', user_id=user_id, username=username)

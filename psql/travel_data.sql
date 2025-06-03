@@ -1,11 +1,11 @@
-CREATE TABLE travel_data(
-    t_id SERIAL PRIMARY KEY,
-    t_title VARCHAR(25) NOT NULL,
-    t_location VARCHR(25) NOT NULL,
+CREATE TABLE travel_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    t_title TEXT NOT NULL,
+    t_location TEXT NOT NULL,
     human_number INTEGER NOT NULL,
     overview TEXT,
-    u_id INTEGER NOT NULL REFERENCES users_table(id) ON DELETE CASCADE,
-    t_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    u_id INTEGER NOT NULL,
+    FOREIGN KEY(u_id) REFERENCES users_table(id)
 );
 
 --users_tableのidを入れる、そしてON DELETE CASCADEを使用することによってusers_table の対応ユーザーが削除された場合、この旅行データも一緒に削除される
