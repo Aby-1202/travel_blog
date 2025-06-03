@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.nav-links {
+    margin-bottom: 20px;
+}
+
+.nav-links a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #0066cc;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header img {
+    width: 200px;
+    height: auto;
+}
+
+.search-box {
+    flex-grow: 1;
+}
+
+.search-box input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.plan-list {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.plan-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    text-decoration: none;
+    color: inherit;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s;
+}
+
+.plan-card:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.plan-card h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.plan-card p {
+    margin: 4px 0;
+}
+
+.no-data {
+    color: #666;
+    margin-top: 20px;
+}

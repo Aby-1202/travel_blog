@@ -4,13 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ホームページ</title>
+    <!-- 外部CSSを読み込む -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- ユーザー名を表示 -->
     <h1>ようこそ、{{ username }} さん！</h1>
-    <p>あなたのユーザーIDは {{ user_id }} です。</p>
-    <p>ここはホームページです。</p>
-    <a href="{{ url_for('auth.logout') }}">ログアウト</a>
-    <a href="{{ url_for('input.input')}}">旅を記録する</a>
+  
+    <!-- ナビゲーションリンク -->
+    <div class="nav-links">
+        <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+        <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
+    </div>
 
+    <!-- 地図画像と検索フォーム -->
+    <div class="header">
+        <img src="{{ url_for('static', filename='map-japan-color-region.png') }}" alt="日本地図">
+        <div class="search-box">
+            <form method="GET" action="{{ url_for('home.home') }}">
+                <input type="text" name="q" placeholder="場所・タイトルなどで検索"
+                       value="{{ request.args.get('q', '') }}">
+            </form>
+        </div>
+    </div>
+
+    <!-- 旅プラン一覧 -->
+    <section class="plan-list">
+        {% if travel_data_list is defined and travel_data_list %}
+            {% for travel in travel_data_list %}
+                <a href="{{ url_for('view_plan', travel_id=travel.t_id) }}" class="plan-card">
+                    <h3>{{ travel.t_title }}</h3>
+                    <p><strong>場所:</strong> {{ travel.t_location }}</p>
+                    <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+                    <p>
+                        <strong>概要:</strong>
+                        {{ travel.overview[:80] }}
+                        {% if travel.overview|length > 80 %}...{% endif %}
+                    </p>
+                </a>
+            {% endfor %}
+        {% else %}
+            <p class="no-data">まだ旅の記録がありません。</p>
+        {% endif %}
+    </section>
 </body>
 </html>
