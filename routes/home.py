@@ -19,8 +19,7 @@ def home():
 
     cursor.execute("""
         SELECT * FROM travel_data
-        WHERE u_id = ?
-    """, (user_id,))
+    """)
     travel_data_list = cursor.fetchall()
 
     conn.close()

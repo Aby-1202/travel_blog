@@ -41,6 +41,7 @@
                         {{ travel.overview[:80] }}
                         {% if travel.overview|length > 80 %}...{% endif %}
                     </p>
+                    <p><strong>作成者:</strong> {{ travel.username }}</p>
                 </a>
             {% endfor %}
         {% else %}
