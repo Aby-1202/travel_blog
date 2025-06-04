@@ -10,7 +10,7 @@ body {
 .nav-links a {
     margin-right: 15px;
     text-decoration: none;
-    color: #0066cc;
+    color: #cc0000;
 }
 
 .nav-links a:hover {
@@ -40,9 +40,10 @@ body {
 
 .plan-list {
     margin-top: 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;  /* ← 縦に並べる */
+    gap: 20px;                /* 各カードの間隔 */
+    padding: 10px;
 }
 
 .plan-card {
@@ -66,9 +67,4 @@ body {
 
 .plan-card p {
     margin: 4px 0;
-}
-
-.no-data {
-    color: #666;
-    margin-top: 20px;
 }
