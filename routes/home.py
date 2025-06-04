@@ -18,7 +18,9 @@ def home():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT * FROM travel_data
+        SELECT travel_data.*, users_table.u_name AS username
+        FROM travel_data
+        JOIN users_table ON travel_data.u_id = users_table.id
     """)
     travel_data_list = cursor.fetchall()
 
