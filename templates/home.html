@@ -32,7 +32,7 @@
     <section class="plan-list">
         {% if travel_data_list is defined and travel_data_list %}
             {% for travel in travel_data_list %}
-                <a href="{{ url_for('view_plan', travel_id=travel.t_id) }}" class="plan-card">
+                <a >
                     <h3>{{ travel.t_title }}</h3>
                     <p><strong>場所:</strong> {{ travel.t_location }}</p>
                     <p><strong>人数:</strong> {{ travel.human_number }}人</p>
@@ -44,7 +44,7 @@
                 </a>
             {% endfor %}
         {% else %}
-            <p class="no-data">まだ旅の記録がありません。</p>
+            <p>旅行データが登録されていません。</p>
         {% endif %}
     </section>
 </body>
