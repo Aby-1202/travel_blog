@@ -10,7 +10,27 @@ def users_data():
         return redirect(url_for('login.login'))
 
     user_id = session['user_id']
-    username = session.get('username', 'ゲスト')
 
+    # DB接続
+    conn = sqlite3.connect('app.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
 
-    return render_template('users_data.html', user_id=user_id, username=username)
+    # ユーザー情報を取得
+    cursor.execute("""
+        SELECT id, u_name, email, password
+        FROM users_table
+        WHERE id = ?
+    """, (user_id,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if user is None:
+        flash("ユーザー情報が見つかりません。")
+        return redirect(url_for('home.home'))
+
+    return render_template('users_data.html',
+                           user_id=user['id'],
+                           username=user['u_name'],
+                           email=user['email'],
+                           password=user['password'])
