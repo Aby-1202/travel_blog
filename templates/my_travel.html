@@ -1,25 +1,40 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MYトラベル</title>
-    <!-- 外部CSSを読み込む -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <!-- ユーザー名を表示 -->
     <h1>ようこそ、{{ username }} さん！</h1>
-  
-    <!-- ナビゲーションリンク -->
+
     <div class="nav-links">
         <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+        <a href="{{url_for('home.home')}}">ホーム</a>
         <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
         <a href="{{url_for('my_travel.my_travel')}}">MYトラベル</a>
         <a href="{{url_for('users_data.users_data')}}">ユーザー情報</a>
     </div>
 
+    <h2>あなたの旅行一覧</h2>
 
-
+    {% if travels %}
+        <div class="plan-card">
+            <h3>{{ travel.t_title }}</h3>
+            <p><strong>場所:</strong> {{ travel.t_location }}</p>
+            <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+            <p>
+                <strong>概要:</strong>
+                {{ travel.overview[:80] }}
+                {% if travel.overview|length > 80 %}...{% endif %}
+            </p>
+            <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+            <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
+            <p><strong>作成者:</strong> {{ travel.username }}</p>
+        </div>
+    {% else %}
+        <p>まだ旅の投稿がありません。</p>
+    {% endif %}
 </body>
 </html>

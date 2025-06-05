@@ -12,5 +12,26 @@ def users_data():
     user_id = session['user_id']
     username = session.get('username', 'ゲスト')
 
+    conn = sqlite3.connect('app.db')
+    conn.row_factory = sqlite3.Row  # 辞書風アクセス可能に
+    cursor = conn.cursor()
 
-    return render_template('users_data.html', user_id=user_id, username=username)
+    cursor.execute("""
+        SELECT id, u_name, email, created_at
+        FROM users_table
+        WHERE id = ?
+    """, (user_id,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if user is None:
+        flash("ユーザー情報が見つかりません。")
+        return redirect(url_for('home.home'))
+
+    return render_template(
+        'users_data.html',
+        user_id=user['id'],
+        username=user['u_name'],
+        email=user['email'],
+        created_at=user['created_at']
+    )

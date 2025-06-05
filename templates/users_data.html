@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ユーザー情報</title>
-    <!-- 外部CSSを読み込む -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <!-- ユーザー名を表示 -->
     <h1>ようこそ、{{ username }} さん！</h1>
-  
-    <!-- ナビゲーションリンク -->
+
     <div class="nav-links">
         <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+        <a href="{{url_for('home.home')}}">ホーム</a>
         <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
         <a href="{{url_for('my_travel.my_travel')}}">MYトラベル</a>
         <a href="{{url_for('users_data.users_data')}}">ユーザー情報</a>
     </div>
 
+    <h2>ユーザー情報詳細</h2>
+    <ul>
+        <li><strong>ユーザーID:</strong> {{ user_id }}</li>
+        <li><strong>ユーザー名:</strong> {{ username }}</li>
+        <li><strong>メールアドレス:</strong> {{ email }}</li>
+        <li><strong>アカウント作成日時:</strong> {{ created_at }}</li>
+    </ul>
 </body>
 </html>
