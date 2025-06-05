@@ -17,7 +17,7 @@ def users_data():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT id, u_name, email, password_hash, created_at
+        SELECT id, u_name, email, created_at
         FROM users_table
         WHERE id = ?
     """, (user_id,))
@@ -33,6 +33,5 @@ def users_data():
         user_id=user['id'],
         username=user['u_name'],
         email=user['email'],
-        password_hash=user['password_hash'],
         created_at=user['created_at']
     )
