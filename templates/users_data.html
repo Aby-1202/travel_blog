@@ -9,18 +9,20 @@
 <body>
     <h1>ようこそ、{{ username }} さん！</h1>
 
-    <div class="user-info">
-        <p><strong>ユーザーID:</strong> {{ user_id }}</p>
-        <p><strong>ユーザーネーム:</strong> {{ username }}</p>
-        <p><strong>メールアドレス:</strong> {{ email }}</p>
-        <p><strong>パスワード:</strong> {{ password }}</p>
-    </div>
-
     <div class="nav-links">
         <a href="{{ url_for('auth.logout') }}">ログアウト</a>
         <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
         <a href="{{ url_for('my_travel.my_travel') }}">MYトラベル</a>
         <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
     </div>
+
+    <h2>ユーザー情報詳細</h2>
+    <ul>
+        <li><strong>ユーザーID:</strong> {{ user_id }}</li>
+        <li><strong>ユーザー名:</strong> {{ username }}</li>
+        <li><strong>メールアドレス:</strong> {{ email }}</li>
+        <li><strong>パスワードハッシュ:</strong> {{ password_hash }}</li>
+        <li><strong>アカウント作成日時:</strong> {{ created_at }}</li>
+    </ul>
 </body>
 </html>
