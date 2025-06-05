@@ -12,16 +12,19 @@ def input():
 
     username = session.get('username', 'ゲスト')
     user_id = session['user_id']
-    print("DEBUG: session user_id =", user_id)  # ここでユーザーIDが表示されるか必ずチェック
+    print("DEBUG: session user_id =", user_id)
 
     if request.method == 'POST':
         title = request.form.get('title')
         location = request.form.get('location')
         human_number = request.form.get('human_number')
         overview = request.form.get('overview')
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
 
-        if not title or not location or not human_number:
-            flash("タイトル、場所、人数は必須です")
+        # 必須項目チェック
+        if not title or not location or not human_number or not start_date or not end_date:
+            flash("タイトル、場所、人数、開始日、終了日は必須です")
             return render_template('input.html', username=username)
 
         try:
@@ -29,9 +32,9 @@ def input():
             cursor = conn.cursor()
 
             cursor.execute("""
-                INSERT INTO travel_data (t_title, t_location, human_number, overview, u_id)
-                VALUES (?, ?, ?, ?, ?)
-            """, (title, location, human_number, overview, user_id))
+                INSERT INTO travel_data (t_title, t_location, human_number, overview, start_date, end_date, u_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (title, location, human_number, overview, start_date, end_date, user_id))
 
             conn.commit()
             conn.close()
@@ -42,7 +45,6 @@ def input():
         except Exception as e:
             error_trace = traceback.format_exc()
             print(error_trace)
-
             flash(f"エラーが発生しました: {e}")
             return render_template('input.html', username=username)
 
