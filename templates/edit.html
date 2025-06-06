@@ -1,0 +1,39 @@
+<form method="POST" action="/edit/{{ post.id }}" enctype="multipart/form-data"></form>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>旅行編集</h1>
+    <div class="nav-links">
+        <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+        <a href="{{ url_for('home.home') }}">ホーム</a>
+        <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('my_travel.my_travel') }}">MYトラベル</a>
+        <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+    </div>
+    
+    <form method="POST" action="/edit/{{ post.id }}" enctype="multipart/form-data">
+        <input type="text" name="title" value="{{ post.title }}" required><br>
+        <input type="text" name="location" value="{{ post.location }}" required><br>
+        <input type="number" name="human_number" value="{{ post.human_number }}" required><br>
+        <textarea name="overview">{{ post.overview }}</textarea><br>
+        <input type="date" name="start_date" value="{{ post.start_date }}" required><br>
+        <input type="date" name="end_days" value="{{ post.end_days }}" required><br>
+        <input type="file" name="photo"><br>
+        <input type="submit" value="更新">
+    </form>
+    <a href="{{ url_for('my_travel.my_travel') }}">戻る</a>
+    
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    {% if success %}
+        <p class="success">{{ success }}</p>
+    {% endif %}
+</body>
+
