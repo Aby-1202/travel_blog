@@ -1,0 +1,112 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  /* 2カラムの親コンテナ */
+  .container {
+    display: flex;
+    gap: 30px; /* 左右の間隔 */
+  }
+  
+  /* 左側：旅行情報＆詳細リスト */
+  .left-panel {
+    flex: 2; /* 幅比率 */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    max-height: 80vh;
+    overflow-y: auto; /* 縦スクロール可能に */
+  }
+  
+  /* 右側：入力フォーム */
+  .right-panel {
+    flex: 1; /* 左の約半分の幅 */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  h1, h2, h3, h4 {
+    color: #2c3e50;
+  }
+  
+  a {
+    color: #2980b9;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* フォームのスタイル */
+  form label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  
+  form input[type="number"],
+  form input[type="text"],
+  form input[type="time"],
+  form input[type="url"],
+  form textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+  }
+  
+  form textarea {
+    min-height: 80px;
+  }
+  
+  form button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #2980b9;
+    border: none;
+    color: white;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #1f618d;
+  }
+  
+  /* 旅行詳細の各項目 */
+  .detail-item {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .detail-item h4 {
+    margin-bottom: 6px;
+    color: #34495e;
+  }
+  
+  .detail-item p {
+    margin: 4px 0;
+    line-height: 1.4;
+  }
+  
+  .detail-item a {
+    font-size: 13px;
+  }
+  

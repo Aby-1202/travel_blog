@@ -3,41 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <title>{{ travel.t_title }} の詳細</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='travel_details_input.css') }}">
 </head>
 <body>
-  <h1>ようこそ、{{ username }} さん！</h1>
-
-  <h2>{{ travel.t_title }} の詳細情報</h2>
-  <p><strong>場所:</strong> {{ travel.t_location }}</p>
-  <p><strong>人数:</strong> {{ travel.human_number }}人</p>
-  <p><strong>概要:</strong> {{ travel.overview }}</p>
-  <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-  <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
-  <p><strong>作成者:</strong> {{ travel.username }}</p>
-
-  <h3>旅行詳細を追加</h3>
-  <form action="{{ url_for('travel_details_input.add_travel_detail', travel_id=travel.id) }}" method="POST">
-    <label>日数（1, 2, ...）:<input type="number" name="day_number" min="1" required></label><br>
-    <label>詳細タイトル（訪問先）:<input type="text" name="detail_name" required></label><br>
-    <label>体験内容:<textarea name="detail_text"></textarea></label><br>
-    <label>訪問時間:<input type="time" name="visit_time"></label><br>
-    <label>リンク(URL):<input type="url" name="location_url"></label><br>
-    <button type="submit">追加</button>
-  </form>
-
-  <div>
-    <h3>これまでの旅行詳細</h3>
-    {% for detail in travel_details %}
-      <div>
-        <h4>{{ detail.day_number }}日目 - {{ detail.detail_name }}</h4>
-        <p>{{ detail.detail_text }}</p>
-        <p>訪問時間: {{ detail.visit_time }}</p>
-        <p><a href="{{ detail.location_url }}" target="_blank">リンク</a></p>
+    <h1>ようこそ、{{ username }} さん！</h1>
+    <a href="{{url_for('my_travel.my_travel')}}">MYトラベル戻る</a>
+  
+    <div class="container">
+      <div class="left-panel">
+        <h2>{{ travel.t_title }} の詳細情報</h2>
+        <p><strong>場所:</strong> {{ travel.t_location }}</p>
+        <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+        <p><strong>概要:</strong> {{ travel.overview }}</p>
+        <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+        <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
+        <p><strong>作成者:</strong> {{ travel.username }}</p>
+  
+        <h3>これまでの旅行詳細</h3>
+        {% for detail in travel_details %}
+          <div class="detail-item">
+            <h4>{{ detail.day_number }}日目 - {{ detail.detail_name }}</h4>
+            <p>{{ detail.detail_text }}</p>
+            <p>訪問時間: {{ detail.visit_time }}</p>
+            <p><a href="{{ detail.location_url }}" target="_blank">リンク</a></p>
+          </div>
+        {% else %}
+          <p>まだ詳細はありません。</p>
+        {% endfor %}
       </div>
-    {% else %}
-      <p>まだ詳細はありません。</p>
-    {% endfor %}
-  </div>
-
-</body>
+  
+      <div class="right-panel">
+        <h3>旅行詳細を追加</h3>
+        <form action="{{ url_for('travel_details_input.add_travel_detail', travel_id=travel.id) }}" method="POST">
+          <label>日数（1, 2, ...）:<input type="number" name="day_number" min="1" required></label>
+          <label>詳細タイトル（訪問先）:<input type="text" name="detail_name" required></label>
+          <label>体験内容:<textarea name="detail_text"></textarea></label>
+          <label>訪問時間:<input type="time" name="visit_time"></label>
+          <label>リンク(URL):<input type="url" name="location_url"></label>
+          <button type="submit">追加</button>
+        </form>
+      </div>
+    </div>
+  
+  </body>
+  
 </html>
