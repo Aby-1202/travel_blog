@@ -19,6 +19,7 @@ def travel_details(travel_id):
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
+    # 旅行情報を取得
     cursor.execute("""
         SELECT travel_data.*, users_table.u_name AS username
         FROM travel_data
@@ -26,11 +27,43 @@ def travel_details(travel_id):
         WHERE travel_data.id = ?
     """, (travel_id,))
     travel = cursor.fetchone()
-    conn.close()
 
     if not travel:
+        conn.close()
         flash("指定された旅行は存在しません。")
         return redirect(url_for('my_travel.my_travel'))
+
+    # POST時は詳細追加処理
+    if request.method == 'POST':
+        day_number = request.form.get('day_number')
+        detail_name = request.form.get('detail_name')
+        detail_text = request.form.get('detail_text')
+        visit_time = request.form.get('visit_time')
+        location_url = request.form.get('location_url')
+
+        if not (day_number and detail_name):
+            flash("日数と詳細タイトルは必須です。")
+        else:
+            try:
+                cursor.execute("""
+                    INSERT INTO travel_details (travel_data_id, detail_name, detail_text, day_number, visit_time, location_url)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (travel_id, detail_name, detail_text, int(day_number), visit_time, location_url))
+                conn.commit()
+                flash("旅行詳細を追加しました。")
+                return redirect(url_for('travel_details_input.travel_details', travel_id=travel_id))
+            except Exception as e:
+                flash(f"追加に失敗しました: {e}")
+
+    # 旅行詳細一覧を取得
+    cursor.execute("""
+        SELECT * FROM travel_details
+        WHERE travel_data_id = ?
+        ORDER BY day_number, visit_time
+    """, (travel_id,))
+    travel_details = cursor.fetchall()
+
+    conn.close()
 
     # 日数計算
     try:
@@ -46,6 +79,7 @@ def travel_details(travel_id):
     return render_template(
         'travel_details_input.html',
         travel=travel_dict,
+        travel_details=travel_details,
         username=username
     )
 
