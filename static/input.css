@@ -66,6 +66,13 @@ body {
     background-color: #34495e;
 }
 
+.nav-links a.active {
+    background-color: #1abc9c;
+    color: white;
+    border-radius: 5px;
+}
+
+
 /* =========================== */
 /* フォーム入力部分のデザイン */
 /* =========================== */

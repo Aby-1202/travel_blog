@@ -61,10 +61,20 @@ body {
     background-color: #34495e;
 }
 
-.header img {
-    width: 200px;
-    height: auto;
+.nav-links a.active {
+    background-color: #1abc9c;
+    color: white;
+    border-radius: 5px;
 }
+
+.narrow-banner img {
+    width: 100vw;          /* 横幅：画面いっぱい */
+    height: 200px;          /* 高さ：20px固定 */
+    object-fit: cover;     /* はみ出し部分をカット */
+    object-position: top;  /* ← 表示したい位置に調整 */
+    display: block;
+}
+
 
 .search-box {
     flex-grow: 1;

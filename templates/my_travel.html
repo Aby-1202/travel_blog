@@ -19,12 +19,13 @@
 
     
     <!-- ナビゲーションリンク -->
+    {% set current = request.endpoint %}
     <div class="nav-links">
-        <a href="{{url_for('home.home')}}">ホーム</a>
-        <a href="{{url_for('my_travel.my_travel')}}">MYトラベル</a>
-        <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('home.home') }}" class="{% if current == 'home.home' %}active{% endif %}">ホーム</a>
+        <a href="{{ url_for('my_travel.my_travel') }}" class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
+        <a href="{{ url_for('input.input') }}" class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
     </div>
-
+    
     <h2>あなたの旅行一覧</h2>
 
     {% for travel in travel_data_list %}
