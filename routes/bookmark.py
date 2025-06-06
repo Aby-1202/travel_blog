@@ -2,10 +2,10 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session
 import sqlite3
 from datetime import datetime
 
-my_travel_bp = Blueprint('my_travel', __name__)
+bookmark_bp = Blueprint('bookmark', __name__)
 
-@my_travel_bp.route('/my_travel', methods=['GET'])
-def my_travel():
+@bookmark_bp.route('/bookmark', methods=['GET'])
+def bookmark():
     if 'user_id' not in session:
         flash("ログインしてください")
         return redirect(url_for('login.login'))
