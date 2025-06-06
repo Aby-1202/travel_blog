@@ -6,7 +6,8 @@ from routes import (
     logout_bp,
     input_bp,
     my_travel_bp,
-    users_data_bp
+    users_data_bp,
+    travel_details_input_bp
 )
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -22,6 +23,7 @@ app.register_blueprint(logout_bp)
 app.register_blueprint(input_bp)
 app.register_blueprint(my_travel_bp)
 app.register_blueprint(users_data_bp)
+app.register_blueprint(travel_details_input_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)
