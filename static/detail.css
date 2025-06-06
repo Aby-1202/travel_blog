@@ -1,0 +1,85 @@
+/* detail.css */
+
+/* 全体のベーススタイル */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 20px;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* 2カラムレイアウトの親コンテナ（今回は1カラムでも同じクラスを使用） */
+.container {
+  display: flex;
+  gap: 30px; /* 左右の間隔 */
+}
+
+/* 左側パネル：旅行情報＆詳細リスト */
+.left-panel {
+  flex: 1; /* フル幅でも使えるように1に設定 */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  max-height: 80vh;
+  overflow-y: auto; /* 縦スクロール可能に */
+}
+
+/* 見出しのカラー設定 */
+h1,
+h2,
+h3,
+h4 {
+  color: #2c3e50;
+}
+
+/* リンクのスタイル */
+a {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 旅行情報セクションの見出し */
+.left-panel h2 {
+  margin-bottom: 12px;
+}
+
+/* 旅行情報の各項目 */
+.left-panel p {
+  margin: 6px 0;
+  line-height: 1.5;
+}
+
+/* 旅行詳細リストの各項目 */
+.detail-item {
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.detail-item h4 {
+  margin-bottom: 6px;
+  color: #34495e;
+  font-size: 18px;
+}
+
+.detail-item p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+/* 詳細リンク */
+.detail-item a {
+  font-size: 13px;
+}
+
+/* 「ホームに戻る」リンク */
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-weight: 600;
+}
