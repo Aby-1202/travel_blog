@@ -1,5 +1,5 @@
 CREATE TABLE travel_details (
-    travel_detail_id SERIAL PRIMARY KEY,                       -- 自動連番
+    id INTEGER PRIMARY KEY AUTOINCREMENT,                    -- 自動連番
     travel_data_id INTEGER NOT NULL,                           -- 親の旅行情報のID
     detail_name TEXT NOT NULL,                                 -- 小タイトル（訪問先）
     detail_text TEXT,                                          -- 具体的な体験内容
