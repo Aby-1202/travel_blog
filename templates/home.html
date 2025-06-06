@@ -8,20 +8,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- ユーザー名を表示 -->
-    <h1>ようこそ、{{ username }} さん！</h1>
+
+    <!-- ヘッダー情報（ユーザー名 + ログアウト + ユーザー情報） -->
+    <div class="header-top">
+        <h1 class="welcome-msg">旅行記録ブログ</h1>
+        <div class="user-actions">
+            <h1 class="welcome-msg">ようこそ、{{ username }} さん！</h1>
+            <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+            <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+        </div>
+    </div>
+
     
     <!-- ナビゲーションリンク -->
+    {% set current = request.endpoint %}
     <div class="nav-links">
-        <a href="{{ url_for('auth.logout') }}">ログアウト</a>
-        <a href="{{url_for('home.home')}}">ホーム</a>
-        <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
-        <a href="{{url_for('my_travel.my_travel')}}">MYトラベル</a>
-        <a href="{{url_for('users_data.users_data')}}">ユーザー情報</a>
+        <a href="{{ url_for('home.home') }}" class="{% if current == 'home.home' %}active{% endif %}">ホーム</a>
+        <a href="{{ url_for('my_travel.my_travel') }}" class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
+        <a href="{{ url_for('input.input') }}" class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
     </div>
 
 
     <!-- 地図画像と検索フォーム -->
+<<<<<<< HEAD
     <div class="header">
         <img src="{{ url_for('static', filename='map-japan-color-region.png') }}" alt="日本地図">
         <div class="search-box">
@@ -29,8 +38,15 @@
                 <input type="text" name="q" placeholder="場所・タイトルなどで検索"
                         value="{{ request.args.get('q', '') }}">
             </form>
+=======
+    <!--<div class="header">
+        <div class="narrow-banner">
+            <img src="{{ url_for('static', filename='travel_images/screenshot2.png') }}" alt="バナー画像">
+>>>>>>> create-css
         </div>
-    </div>
+    </div>-->
+
+    <!--画像が汚いので一旦コメントの状況にしてある-->
 
     <!-- 旅プラン一覧 -->
     <section class="plan-list">

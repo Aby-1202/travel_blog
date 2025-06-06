@@ -7,14 +7,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <h1>ようこそ、{{ username }} さん！</h1>
+    <!-- ヘッダー情報（ユーザー名 + ログアウト + ユーザー情報） -->
+    <div class="header-top">
+        <h1 class="welcome-msg">旅行記録ブログ</h1>
+        <div class="user-actions">
+            <h1 class="welcome-msg">ようこそ、{{ username }} さん！</h1>
+            <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+            <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+        </div>
+    </div>
 
+    
+    <!-- ナビゲーションリンク -->
     <div class="nav-links">
-        <a href="{{ url_for('auth.logout') }}">ログアウト</a>
         <a href="{{url_for('home.home')}}">ホーム</a>
-        <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
         <a href="{{url_for('my_travel.my_travel')}}">MYトラベル</a>
-        <a href="{{url_for('users_data.users_data')}}">ユーザー情報</a>
+        <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
     </div>
 
     <h2>ユーザー情報詳細</h2>
