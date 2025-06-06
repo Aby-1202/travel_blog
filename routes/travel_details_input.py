@@ -98,7 +98,7 @@ def add_travel_detail(travel_id):
 
     # 入力チェックなど必要に応じて
 
-    conn = sqlite3.connect('travel_blog/app.db')
+    conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
 
     cursor.execute("""
