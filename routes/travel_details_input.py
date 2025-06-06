@@ -8,6 +8,14 @@ travel_details_input_bp = Blueprint('travel_details_input', __name__, url_prefix
 
 @travel_details_input_bp.route('/travel/<int:travel_id>/details')
 def travel_details(travel_id):
+    # ログインチェック
+    if 'user_id' not in session:
+        flash("ログインしてください")
+        return redirect(url_for('login.login'))
+
+    user_id = session['user_id']
+    username = session.get('username', 'ゲスト')
+
     conn = sqlite3.connect('app.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
@@ -38,5 +46,7 @@ def travel_details(travel_id):
 
     return render_template(
         'travel_details_input.html',
-        travel=travel_dict
+        travel=travel_dict,
+        user_id=user_id,
+        username=username
     )
