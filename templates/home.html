@@ -27,7 +27,7 @@
         <div class="search-box">
             <form method="GET" action="{{ url_for('home.home') }}">
                 <input type="text" name="q" placeholder="場所・タイトルなどで検索"
-                       value="{{ request.args.get('q', '') }}">
+                        value="{{ request.args.get('q', '') }}">
             </form>
         </div>
     </div>

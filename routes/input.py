@@ -1,8 +1,16 @@
 import traceback
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import sqlite3
+import os
+import uuid
+from werkzeug.utils import secure_filename
 
 input_bp = Blueprint('input', __name__, url_prefix='')
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'uploads')
+if not os.path.isdir(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 @input_bp.route('/input', methods=['GET', 'POST'])
 def input():
@@ -27,14 +35,28 @@ def input():
             flash("タイトル、場所、人数、開始日、終了日は必須です")
             return render_template('input.html', username=username)
 
+        # 画像ファイルの処理
+        image_filename = None
+        file = request.files.get('image')
+        if file:
+            original_name = secure_filename(file.filename)
+            save_path = os.path.join(UPLOAD_FOLDER, original_name)
+            try:
+                file.save(save_path)
+                image_filename = original_name
+            except Exception:
+                traceback.print_exc()
+                flash("画像の保存に失敗しました")
+                return render_template('input.html', username=username)
+            
         try:
             conn = sqlite3.connect('app.db')
             cursor = conn.cursor()
 
             cursor.execute("""
-                INSERT INTO travel_data (t_title, t_location, human_number, overview, start_date, end_date, u_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (title, location, human_number, overview, start_date, end_date, user_id))
+                INSERT INTO travel_data (t_title, t_location, human_number, overview, start_date, end_date, image_path, u_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, (title, location, human_number, overview, start_date, end_date, image_filename, user_id))
 
             conn.commit()
             conn.close()

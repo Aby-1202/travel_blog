@@ -6,6 +6,7 @@ CREATE TABLE travel_data (
     overview TEXT,
     start_date DATE NOT NULL,  -- 開始日
     end_date DATE NOT NULL,    -- 終了日
+    image_path TEXT,
     u_id INTEGER NOT NULL,
     FOREIGN KEY(u_id) REFERENCES users_table(id)
 );
