@@ -6,4 +6,4 @@ from.input import input_bp
 from .my_travel import my_travel_bp
 from .users_data import users_data_bp
 from .travel_details_input import travel_details_input_bp
-
+from .detail import detail_bp

@@ -36,25 +36,25 @@
     <section class="plan-list">
         {% if travel_data_list is defined and travel_data_list %}
             {% for travel in travel_data_list %}
-            <div class="plan-card">
-                <h3>{{ travel.t_title }}</h3>
-                <p><strong>場所:</strong> {{ travel.t_location }}</p>
-                <p><strong>人数:</strong> {{ travel.human_number }}人</p>
-                <p>
-                    <strong>概要:</strong>
-                    {{ travel.overview[:80] }}
-                    {% if travel.overview|length > 80 %}...{% endif %}
-                </p>
-                <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-                <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
-                <p><strong>作成者:</strong> {{ travel.username }}</p>
-            </div>
-            
+            <a href="{{ url_for('detail.detail', travel_id=travel.id) }}" class="custom-link">
+                <div class="plan-card">
+                    <h3>{{ travel.t_title }}</h3>
+                    <p><strong>場所:</strong> {{ travel.t_location }}</p>
+                    <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+                    <p>
+                        <strong>概要:</strong>
+                        {{ travel.overview[:80] }}
+                        {% if travel.overview|length > 80 %}...{% endif %}
+                    </p>
+                    <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+                    <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
+                    <p><strong>作成者:</strong> {{ travel.username }}</p>
+                </div>
+            </a>
             {% endfor %}
         {% else %}
             <p class="no-data">旅行データが登録されていません。</p>
         {% endif %}
     </section>
-    
 </body>
 </html>
