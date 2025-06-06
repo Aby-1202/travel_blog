@@ -44,7 +44,7 @@ def bookmark():
         travel_data_with_duration.append(travel_dict)
 
     return render_template(
-        'home.html',
+        'bookmark.html',
         user_id=user_id,
         username=username,
         travel_data_list=travel_data_with_duration
