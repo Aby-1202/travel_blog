@@ -11,7 +11,7 @@
     <a href="{{url_for('home.home')}}">ホームに戻る</a>
 
     <h1>旅の投稿</h1>
-    <form method="POST" action="/input">
+    <form method="POST" action="/input" enctype="multipart/form-data">
         <label for="title">タイトル:</label><br>
         <input type="text" id="title" name="title" maxlength="25" required><br><br>
     
@@ -29,7 +29,10 @@
     
         <label for="end_date">旅行終了日:</label><br>
         <input type="date" id="end_date" name="end_date" required><br><br>
-    
+
+        <label for="image">画像を選択</label>
+        <input type="file" name="image" id="image" accept="image/*">
+
         <input type="submit" value="登録">
     </form>
     
