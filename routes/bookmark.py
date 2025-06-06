@@ -17,13 +17,16 @@ def bookmark():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
+    # 修正されたSQLクエリ
     cursor.execute("""
         SELECT travel_data.*, users_table.u_name AS username, bookmark_data.id AS bookmark_id
-        FROM travel_data
-        JOIN bookmark_data ON travel_data.id = bookmark_data.id
+        FROM bookmark_data
+        JOIN travel_data ON bookmark_data.t_id = travel_data.id
+        JOIN users_table ON bookmark_data.u_id = users_table.id
         WHERE bookmark_data.u_id = ?
         ORDER BY bookmark_data.b_created_at DESC
     """, (user_id,))
+    
     travel_data_list = cursor.fetchall()
     conn.close()
 
