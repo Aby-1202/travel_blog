@@ -50,7 +50,7 @@ def input():
                 return render_template('input.html', username=username)
             
         try:
-            conn = sqlite3.connect('travel_blog/app.db')
+            conn = sqlite3.connect('app.db')
             cursor = conn.cursor()
 
             cursor.execute("""
