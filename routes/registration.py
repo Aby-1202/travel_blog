@@ -28,7 +28,7 @@ def registration():
         password_hash = generate_password_hash(password1)
 
         try:
-            conn = sqlite3.connect('app.db')
+            conn = sqlite3.connect('travel_blog/app.db')
             cursor = conn.cursor()
 
             # データ挿入

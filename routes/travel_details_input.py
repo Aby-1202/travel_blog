@@ -15,7 +15,7 @@ def travel_details(travel_id):
     user_id = session['user_id']
     username = session.get('username', 'ゲスト')
 
-    conn = sqlite3.connect('app.db')
+    conn = sqlite3.connect('travel_blog/app.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
@@ -98,7 +98,7 @@ def add_travel_detail(travel_id):
 
     # 入力チェックなど必要に応じて
 
-    conn = sqlite3.connect('app.db')
+    conn = sqlite3.connect('travel_blog/app.db')
     cursor = conn.cursor()
 
     cursor.execute("""

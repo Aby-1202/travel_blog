@@ -10,7 +10,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        conn = sqlite3.connect('app.db')
+        conn = sqlite3.connect('travel_blog/app.db')
         cursor = conn.cursor()
 
         cursor.execute("SELECT id, u_name, password_hash FROM users_table WHERE u_name = ?", (username,))

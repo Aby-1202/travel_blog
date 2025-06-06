@@ -13,7 +13,7 @@ def home():
     user_id = session['user_id']
     username = session.get('username', 'ゲスト')
 
-    conn = sqlite3.connect('app.db')
+    conn = sqlite3.connect('travel_blog/app.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
