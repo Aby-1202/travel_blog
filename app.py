@@ -8,7 +8,7 @@ from routes import (
     my_travel_bp,
     users_data_bp,
     travel_details_input_bp,
-    bookmark_bp
+    bookmark_bp,
 )
 
 app = Flask(__name__, template_folder='templates', static_folder='static')

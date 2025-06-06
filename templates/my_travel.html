@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MYトラベル</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
+
 <body>
     <h1>ようこそ、{{ username }} さん！</h1>
 
@@ -14,6 +16,7 @@
         <a href="{{url_for('home.home')}}">ホーム</a>
         <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
         <a href="{{url_for('my_travel.my_travel')}}">MYトラベル</a>
+        <a href="{{ url_for('bookmark.bookmark') }}">ブックマーク</a>
         <a href="{{url_for('users_data.users_data')}}">ユーザー情報</a>
     </div>
 
@@ -21,22 +24,23 @@
 
     {% for travel in travel_data_list %}
     <a href="{{ url_for('travel_details_input.travel_details', travel_id=travel.id) }}" class="plan-card-link">
-      <div class="plan-card">
-          <h3>{{ travel.t_title }}</h3>
-          <p><strong>場所:</strong> {{ travel.t_location }}</p>
-          <p><strong>人数:</strong> {{ travel.human_number }}人</p>
-          <p>
-              <strong>概要:</strong>
-              {{ travel.overview[:80] }}
-              {% if travel.overview|length > 80 %}...{% endif %}
-          </p>
-          <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-          <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
-          <p><strong>作成者:</strong> {{ travel.username }}</p>
-      </div>
+        <div class="plan-card">
+            <h3>{{ travel.t_title }}</h3>
+            <p><strong>場所:</strong> {{ travel.t_location }}</p>
+            <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+            <p>
+                <strong>概要:</strong>
+                {{ travel.overview[:80] }}
+                {% if travel.overview|length > 80 %}...{% endif %}
+            </p>
+            <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+            <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
+            <p><strong>作成者:</strong> {{ travel.username }}</p>
+        </div>
     </a>
     {% endfor %}
-    
-    
+
+
 </body>
+
 </html>
