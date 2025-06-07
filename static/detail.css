@@ -1,6 +1,3 @@
-/* detail.css */
-
-/* 全体のベーススタイル */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 20px;
@@ -8,32 +5,63 @@ body {
   color: #333;
 }
 
-/* 2カラムレイアウトの親コンテナ（今回は1カラムでも同じクラスを使用） */
+/* 中央寄せの親コンテナ */
 .container {
   display: flex;
-  gap: 30px; /* 左右の間隔 */
+  justify-content: center; /* 中央に寄せる */
+  padding: 20px;
 }
 
-/* 左側パネル：旅行情報＆詳細リスト */
+/* 中央に表示するパネル */
 .left-panel {
-  flex: 1; /* フル幅でも使えるように1に設定 */
+  width: 60%; /* 適宜調整可 */
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
   max-height: 80vh;
-  overflow-y: auto; /* 縦スクロール可能に */
+  overflow-y: auto;
 }
 
-/* 見出しのカラー設定 */
-h1,
-h2,
-h3,
-h4 {
+/* 右側（このページでは未使用） */
+.right-panel {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* 旅行の基本情報を固定表示に */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 10;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+}
+
+/* 大きく見やすくするための強調 */
+.sticky-header h2 {
+  font-size: 1.8em;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.sticky-header p {
+  font-size: 1.1em;
+  margin: 4px 0;
+}
+
+
+h1, h2, h3, h4 {
   color: #2c3e50;
 }
 
-/* リンクのスタイル */
 a {
   color: #2980b9;
   text-decoration: none;
@@ -43,18 +71,50 @@ a:hover {
   text-decoration: underline;
 }
 
-/* 旅行情報セクションの見出し */
-.left-panel h2 {
+/* フォームのスタイル（未使用だが残してOK） */
+form label {
+  display: block;
   margin-bottom: 12px;
+  font-weight: 600;
 }
 
-/* 旅行情報の各項目 */
-.left-panel p {
-  margin: 6px 0;
-  line-height: 1.5;
+form input[type="number"],
+form input[type="text"],
+form input[type="time"],
+form input[type="url"],
+form textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
 }
 
-/* 旅行詳細リストの各項目 */
+form textarea {
+  min-height: 80px;
+}
+
+form button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #2980b9;
+  border: none;
+  color: white;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #1f618d;
+}
+
+/* 旅行詳細の各項目 */
 .detail-item {
   margin-bottom: 18px;
   padding-bottom: 12px;
@@ -64,7 +124,6 @@ a:hover {
 .detail-item h4 {
   margin-bottom: 6px;
   color: #34495e;
-  font-size: 18px;
 }
 
 .detail-item p {
@@ -72,14 +131,6 @@ a:hover {
   line-height: 1.4;
 }
 
-/* 詳細リンク */
 .detail-item a {
   font-size: 13px;
-}
-
-/* 「ホームに戻る」リンク */
-.back-link {
-  display: inline-block;
-  margin-top: 20px;
-  font-weight: 600;
 }
