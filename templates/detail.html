@@ -3,21 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ travel.t_title }} の詳細</title>
-    <!-- travel_details_input.css を流用して同じレイアウトにする -->
     <link rel="stylesheet" href="{{ url_for('static', filename='detail.css') }}">
 </head>
 <body>
-    <h1>ようこそ、{{ username }} さん！</h1>
-  
+  <div class="header-top">
+      <h1 class="welcome-msg">旅行記録ブログ</h1>
+      <div class="user-actions">
+          <h1 class="welcome-msg">ようこそ、{{ username }} さん！</h1>
+          <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+          <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+      </div>
+  </div>
+    <a href="{{ url_for('my_travel.my_travel') }}" class="my-travel-back-link">MYトラベル戻る</a>
+
+
     <div class="container">
       <div class="left-panel">
-        <h2>{{ travel.t_title }} の詳細情報</h2>
-            <p><strong>場所:</strong> {{ travel.t_location }}</p>
-            <p><strong>人数:</strong> {{ travel.human_number }}人</p>
-            <p><strong>概要:</strong> {{ travel.overview }}</p>
-            <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-            <p><strong>期間:</strong> {{ duration_days }}日間</p>
-            <p><strong>作成者:</strong> {{ travel.username }}</p>
+        <div class="sticky-header">
+          <h2>{{ travel.t_title }} の詳細情報</h2>
+          <p><strong>場所:</strong> {{ travel.t_location }}</p>
+          <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+          <p><strong>概要:</strong> {{ travel.overview }}</p>
+          <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+          <p><strong>期間:</strong> {{ duration_days }}日間</p>
+          <p><strong>作成者:</strong> {{ travel.username }}</p>
         </div>
 
         <h3>これまでの旅行詳細</h3>
@@ -32,9 +41,6 @@
           <p>まだ詳細はありません。</p>
         {% endfor %}
       </div>
-
     </div>
-
-    <p><a href="{{ url_for('home.home') }}">← ホームに戻る</a></p>
 </body>
 </html>
