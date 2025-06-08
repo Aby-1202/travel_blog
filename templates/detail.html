@@ -6,7 +6,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='detail.css') }}">
 </head>
 <body>
-    <h1>ようこそ、{{ username }} さん！</h1>
+  <div class="header-top">
+      <h1 class="welcome-msg">旅行記録ブログ</h1>
+      <div class="user-actions">
+          <h1 class="welcome-msg">ようこそ、{{ username }} さん！</h1>
+          <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+          <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+      </div>
+  </div>
     <p><a href="{{ url_for('home.home') }}">← ホームに戻る</a></p>
 
     <div class="container">

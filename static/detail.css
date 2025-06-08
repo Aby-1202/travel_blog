@@ -141,3 +141,13 @@ form button:hover {
   color: #0056b3;
   text-decoration: underline;
 }
+
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #ddd;
+}
