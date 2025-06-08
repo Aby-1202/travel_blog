@@ -151,3 +151,19 @@ form button:hover {
   background-color: #f4f4f4;
   border-bottom: 1px solid #ddd;
 }
+
+.my-travel-back-link {
+  display: inline-block;
+  background-color: #2c3e50;  /* ナビと同じ色 */
+  color: #ecf0f1;             /* 明るい文字色 */
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin: 1rem 0;
+}
+
+.my-travel-back-link:hover {
+  background-color: #34495e; /* ホバー時の色変化 */
+}
