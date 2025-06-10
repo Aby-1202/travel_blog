@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>地図ページ</title>
-        <!-- 外部CSSを読み込む -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-</html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地図ページ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
+    <!-- LeafletのCSSとJS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
 <body>
-    <!-- ヘッダー情報（ユーザー名 + ログアウト + ユーザー情報） -->
+    <!-- ヘッダー -->
     <div class="header-top">
         <h1 class="welcome-msg">旅行記録ブログ</h1>
         <div class="user-actions">
@@ -20,8 +29,7 @@
         </div>
     </div>
 
-    
-    <!-- ナビゲーションリンク -->
+    <!-- ナビゲーション -->
     {% set current = request.endpoint %}
     <div class="nav-links">
         <a href="{{ url_for('home.home') }}" class="{% if current == 'home.home' %}active{% endif %}">ホーム</a>
@@ -30,4 +38,21 @@
         <a href="{{ url_for('input.input') }}" class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
     </div>
 
+    <!-- 地図の表示エリア -->
+    <div id="map"></div>
+
+    <!-- 地図の初期化 -->
+    <script>
+        var map = L.map('map').setView([35.681236, 139.767125], 10);  // 東京駅周辺
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // サンプル：マーカーを表示
+        L.marker([35.681236, 139.767125]).addTo(map)
+            .bindPopup('ここが東京駅です')
+            .openPopup();
+    </script>
 </body>
+</html>
