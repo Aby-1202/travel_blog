@@ -7,8 +7,8 @@ from werkzeug.utils import secure_filename
 
 edit_bp = Blueprint('edit', __name__)
 
-@edit_bp.route('/edit/<int:user_id>', methods=['GET', 'POST'])
-def edit(user_id):
+@edit_bp.route('/edit', methods=['GET', 'POST'])
+def edit():
     if 'user_id' not in session:
         flash("ログインしてください")
         return redirect(url_for('login.login'))
@@ -62,7 +62,7 @@ def edit(user_id):
             except Exception:
                 traceback.print_exc()
                 flash("画像の保存に失敗しました")
-                return render_template('edit.html', post=post_data, username=username)
+                return render_template('edit.html', user_id=user_id, post=post_data, username=username)
 
         # DB更新
         try:
@@ -89,8 +89,8 @@ def edit(user_id):
         except Exception as e:
             traceback.print_exc()
             flash(f"更新中にエラーが発生しました: {e}")
-            return render_template('edit.html', post=post_data, username=username)
+            return render_template('edit.html', user_id=user_id, post=post_data, username=username)
 
-    return render_template('edit.html', post=post_data, username=username)
+    return render_template('edit.html', user_id=user_id, post=post_data, username=username)
 
 
