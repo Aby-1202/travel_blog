@@ -7,8 +7,8 @@ from werkzeug.utils import secure_filename
 
 edit_bp = Blueprint('edit', __name__)
 
-@edit_bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
-def edit(post_id):
+@edit_bp.route('/edit/<int:user_id>', methods=['GET', 'POST'])
+def edit(user_id):
     if 'user_id' not in session:
         flash("ログインしてください")
         return redirect(url_for('login.login'))
@@ -19,7 +19,7 @@ def edit(post_id):
     # DBから既存投稿を取得
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM travel_data WHERE t_id = ? AND u_id = ?", (post_id, user_id))
+    cursor.execute("SELECT * FROM travel_data WHERE t_id = ? AND u_id = ?", (user_id , user_id))
     post = cursor.fetchone()
     conn.close()
 
@@ -78,7 +78,7 @@ def edit(post_id):
                     end_date = ?, 
                     image_path = ?
                 WHERE t_id = ? AND u_id = ?
-            """, (title, location, human_number, overview, start_date, end_date, new_filename, post_id, user_id))
+            """, (title, location, human_number, overview, start_date, end_date, new_filename, user_id))
 
             conn.commit()
             conn.close()
