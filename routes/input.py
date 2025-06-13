@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 
 
 import requests
+import time
 
 def get_location_info(location_name):
     """
@@ -18,6 +19,8 @@ def get_location_info(location_name):
     Returns:
         tuple: (緯度, 経度) 取得できなかった場合は (None, None)
     """
+    time.sleep(1)  # Nominatim APIの利用制限に配慮して1秒待機
+
     try:
         url = 'https://nominatim.openstreetmap.org/search'
         params = {
