@@ -5,10 +5,9 @@ import os
 import uuid
 from werkzeug.utils import secure_filename
 
-input_bp = Blueprint('input', __name__)
 edit_bp = Blueprint('edit', __name__)
 
-@input_bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+@edit_bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 def edit(post_id):
     if 'user_id' not in session:
         flash("ログインしてください")
