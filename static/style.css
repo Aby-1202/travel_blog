@@ -117,3 +117,37 @@ body {
     margin: 4px 0;
 }
 
+/* 横並び用追加クラス */
+.horizontal-card {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center; 
+}
+
+/* 左のテキスト部分 */
+.card-text {
+    flex: 1;
+}
+
+/* 右の画像部分 */
+.card-image img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* リンク見た目 */
+.custom-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 空データ用メッセージ */
+.no-data {
+    color: #777;
+    text-align: center;
+    margin-top: 40px;
+}
+
