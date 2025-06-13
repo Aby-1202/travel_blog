@@ -1,39 +1,89 @@
-<form method="POST" action="/edit/{{ post.id }}" enctype="multipart/form-data"></form>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>旅行編集</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{ post.t_title }} を編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='detail.css') }}">
 </head>
 <body>
-    <h1>旅行編集</h1>
-    <div class="nav-links">
-        <a href="{{ url_for('auth.logout') }}">ログアウト</a>
-        <a href="{{ url_for('home.home') }}">ホーム</a>
-        <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
-        <a href="{{ url_for('my_travel.my_travel') }}">MYトラベル</a>
-        <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
-    </div>
-    
-    <form method="POST" action="/edit/{{ post.id }}" enctype="multipart/form-data">
-        <input type="text" name="title" value="{{ post.title }}" required><br>
-        <input type="text" name="location" value="{{ post.location }}" required><br>
-        <input type="number" name="human_number" value="{{ post.human_number }}" required><br>
-        <textarea name="overview">{{ post.overview }}</textarea><br>
-        <input type="date" name="start_date" value="{{ post.start_date }}" required><br>
-        <input type="date" name="end_days" value="{{ post.end_days }}" required><br>
-        <input type="file" name="photo"><br>
-        <input type="submit" value="更新">
-    </form>
-    <a href="{{ url_for('my_travel.my_travel') }}">戻る</a>
-    
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
-    {% if success %}
-        <p class="success">{{ success }}</p>
-    {% endif %}
-</body>
+  <div class="header-top">
+      <h1 class="welcome-msg">旅行記録ブログ</h1>
+      <div class="user-actions">
+          <h1 class="welcome-msg">ようこそ、{{ username }} さん！</h1>
+          <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+          <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+      </div>
+  </div>
 
+  <a href="{{ url_for('my_travel.my_travel') }}" class="my-travel-back-link">マイトラベルに戻る</a>
+  <a href="{{ url_for('home.home') }}" class="my-travel-back-link">ホームに戻る</a>
+
+  <div class="container">
+    <div class="left-panel">
+      <div class="sticky-header">
+        <h2>{{ post.t_title }} の情報を編集</h2>
+
+        <form method="POST" action="{{ url_for('edit.edit', travel_id=post.id) }}" enctype="multipart/form-data">
+            <!-- travel_data 基本情報 -->
+            <p><strong>タイトル:</strong><br>
+                <input type="text" name="title" value="{{ post.t_title }}" required></p>
+        
+            <p><strong>場所:</strong><br>
+                <input type="text" name="location" value="{{ post.t_location }}" required></p>
+        
+            <p><strong>人数:</strong><br>
+                <input type="number" name="human_number" value="{{ post.human_number }}" required></p>
+        
+            <p><strong>概要:</strong><br>
+                <textarea name="overview" rows="4" cols="40">{{ post.overview }}</textarea></p>
+        
+            <p><strong>開始日:</strong><br>
+                <input type="date" name="start_date" value="{{ post.start_date }}" required></p>
+        
+            <p><strong>終了日:</strong><br>
+                <input type="date" name="end_days" value="{{ post.end_date }}" required></p>
+        
+            {% if post.image_path %}
+                <p><strong>現在の画像:</strong><br>
+                <img src="{{ url_for('static', filename=post.image_path.split('static/')[-1]) }}" alt="現在の画像" width="200">
+                </p>
+            {% endif %}
+            <p><strong>画像を変更:</strong><br>
+                <input type="file" name="photo"></p>
+        
+            <hr>
+        
+            <!-- travel_details 編集 -->
+            <h3>旅行の詳細（既存）</h3>
+            {% for detail in details %}
+                <div class="detail-item">
+                    <input type="hidden" name="detail_id" value="{{ detail.id }}">
+                    <p><strong>小タイトル:</strong><br>
+                        <input type="text" name="detail_name_{{ detail.id }}" value="{{ detail.detail_name }}"></p>
+        
+                    <p><strong>体験内容:</strong><br>
+                        <textarea name="detail_text_{{ detail.id }}" rows="2">{{ detail.detail_text }}</textarea></p>
+        
+                    <p><strong>日数:</strong><br>
+                        <input type="number" name="day_number_{{ detail.id }}" value="{{ detail.day_number }}"></p>
+        
+                    <p><strong>訪問時間:</strong><br>
+                        <input type="time" name="visit_time_{{ detail.id }}" value="{{ detail.visit_time }}"></p>
+        
+                    <p><strong>リンク:</strong><br>
+                        <input type="url" name="location_url_{{ detail.id }}" value="{{ detail.location_url }}"></p>
+        
+                    <label><input type="checkbox" name="delete_detail" value="{{ detail.id }}"> 削除</label>
+                    <hr>
+                </div>
+            {% endfor %}
+        
+        
+            <input type="submit" value="更新" class="submit-button">
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>
