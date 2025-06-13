@@ -1,39 +1,46 @@
-<form method="POST" action="/edit/{{ post.id }}" enctype="multipart/form-data"></form>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>旅行編集</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{ travel.t_title }} の詳細</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='detail.css') }}">
 </head>
 <body>
-    <h1>旅行編集</h1>
-    <div class="nav-links">
-        <a href="{{ url_for('auth.logout') }}">ログアウト</a>
-        <a href="{{ url_for('home.home') }}">ホーム</a>
-        <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
-        <a href="{{ url_for('my_travel.my_travel') }}">MYトラベル</a>
-        <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
-    </div>
-    
-    <form method="POST" action="/edit/{{ post.id }}" enctype="multipart/form-data">
-        <input type="text" name="title" value="{{ post.title }}" required><br>
-        <input type="text" name="location" value="{{ post.location }}" required><br>
-        <input type="number" name="human_number" value="{{ post.human_number }}" required><br>
-        <textarea name="overview">{{ post.overview }}</textarea><br>
-        <input type="date" name="start_date" value="{{ post.start_date }}" required><br>
-        <input type="date" name="end_days" value="{{ post.end_days }}" required><br>
-        <input type="file" name="photo"><br>
-        <input type="submit" value="更新">
-    </form>
-    <a href="{{ url_for('my_travel.my_travel') }}">戻る</a>
-    
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
-    {% if success %}
-        <p class="success">{{ success }}</p>
-    {% endif %}
-</body>
+  <div class="header-top">
+      <h1 class="welcome-msg">旅行記録ブログ</h1>
+      <div class="user-actions">
+          <h1 class="welcome-msg">ようこそ、{{ username }} さん！</h1>
+          <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+          <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+      </div>
+  </div>
+    <a href="{{ url_for('travel_details.travel_details') }}" class="my-travel-back-link">マイトラベル戻る</a>
+    <a href="{{ url_for('home.home') }}" class="my-travel-back-link">ホームに戻る</a>
 
+    <div class="container">
+      <div class="left-panel">
+        <div class="sticky-header">
+          <h2>{{ travel.t_title }} の詳細情報</h2>
+          <p><strong>場所:</strong> {{ travel.t_location }}</p>
+          <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+          <p><strong>概要:</strong> {{ travel.overview }}</p>
+          <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+          <p><strong>期間:</strong> {{ duration_days }}日間</p>
+          <p><strong>作成者:</strong> {{ travel.username }}</p>
+        </div>
+
+        <h3>これまでの旅行詳細</h3>
+        {% for detail in travel_details %}
+          <div class="detail-item">
+            <h4>{{ detail.day_number }}日目 - {{ detail.detail_name }}</h4>
+            <p>{{ detail.detail_text }}</p>
+            <p>訪問時間: {{ detail.visit_time }}</p>
+            <p><a href="{{ detail.location_url }}" target="_blank">リンク</a></p>
+          </div>
+        {% else %}
+          <p>まだ詳細はありません。</p>
+        {% endfor %}
+      </div>
+    </div>
+</body>
+</html>
