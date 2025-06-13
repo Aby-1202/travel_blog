@@ -50,7 +50,7 @@ def edit(user_id):
 
         if not title or not location or not human_number or not start_date or not end_date:
             flash("タイトル、場所、人数、開始日、終了日は必須です")
-            return render_template('edit.html', post=post_data, username=username)
+            return render_template('edit.html', user_id=user_id, post=post_data, username=username)
 
         # 新しい画像がある場合のみ処理
         new_filename = post_data['image_path']
