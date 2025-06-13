@@ -30,20 +30,30 @@
     <h2>あなたの旅行一覧</h2>
 
     {% for travel in travel_data_list %}
-    <a href="{{ url_for('travel_details_input.travel_details', travel_id=travel.id) }}" class="plan-card-link">
-      <div class="plan-card">
-          <h3>{{ travel.t_title }}</h3>
-          <p><strong>場所:</strong> {{ travel.t_location }}</p>
-          <p><strong>人数:</strong> {{ travel.human_number }}人</p>
-          <p>
-              <strong>概要:</strong>
-              {{ travel.overview[:80] }}
-              {% if travel.overview|length > 80 %}...{% endif %}
-          </p>
-          <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-          <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
-          <p><strong>作成者:</strong> {{ travel.username }}</p>
-      </div>
+    <a href="{{ url_for('detail.detail', travel_id=travel.id) }}" class="custom-link">
+        <div class="plan-card horizontal-card">
+
+            <div class="card-text">
+                <h3>{{ travel.t_title }}</h3>
+                <p><strong>場所:</strong> {{ travel.t_location }}</p>
+                <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+                <p>
+                    <strong>概要:</strong>
+                    {{ travel.overview[:80] }}
+                    {% if travel.overview|length > 80 %}...{% endif %}
+                </p>
+                    <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+                <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
+                <p><strong>作成者:</strong> {{ travel.username }}</p>
+            </div>
+
+            {% if travel.image_path %}
+            <div class="card-image">
+                <img src="{{ url_for('static', filename='uploads/' ~ travel.image_path) }}" alt="旅の画像">
+            </div>
+            {% endif %}
+
+        </div>
     </a>
     {% endfor %}
     
