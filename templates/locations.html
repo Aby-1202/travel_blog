@@ -12,7 +12,7 @@
 
     <style>
         #map {
-            height: 500px;
+            height: 1000px;
             width: 100%;
             margin-top: 20px;
         }
@@ -39,20 +39,10 @@
     </div>
 
     <!-- 地図の表示エリア -->
-    <div id="map"></div>
+    <div id="map" data-locations='{{ locations | tojson }}'></div>
 
-    <!-- 地図の初期化 -->
-    <script>
-        var map = L.map('map').setView([35.681236, 139.767125], 10);  // 東京駅周辺
+    <!-- 外部JSファイルの読み込み -->
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // サンプル：マーカーを表示
-        L.marker([35.681236, 139.767125]).addTo(map)
-            .bindPopup('ここが東京駅です')
-            .openPopup();
-    </script>
 </body>
 </html>
