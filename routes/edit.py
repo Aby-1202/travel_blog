@@ -19,7 +19,7 @@ def edit():
     # DBから既存投稿を取得
     conn = sqlite3.connect('app.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM travel_data WHERE t_id = ? AND u_id = ?", (user_id , user_id))
+    cursor.execute("SELECT * FROM travel_data WHERE id = ? AND u_id = ?", (user_id , user_id))
     post = cursor.fetchone()
     conn.close()
 
