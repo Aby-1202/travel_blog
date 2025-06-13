@@ -51,8 +51,8 @@
     <section class="plan-list">
         {% if travel_data_list is defined and travel_data_list %}
         {% for travel in travel_data_list %}
-        <a href="{{ url_for('detail.detail', travel_id=travel.id) }}" class="custom-link">
-            <div class="plan-card">
+        <div class="plan-card">
+            <a href="{{ url_for('detail.detail', travel_id=travel.id) }}" class="custom-link">
                 <h3>{{ travel.t_title }}</h3>
                 <p><strong>場所:</strong> {{ travel.t_location }}</p>
                 <p><strong>人数:</strong> {{ travel.human_number }}人</p>
@@ -64,8 +64,13 @@
                 <p><strong>開始日:</strong> {{ travel.start_date }}</p>
                 <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
                 <p><strong>作成者:</strong> {{ travel.username }}</p>
-            </div>
-        </a>
+            </a>
+            <!-- ブックマークボタン -->
+            <form action="{{ url_for('bookmark.save_bookmark') }}" method="POST" class="bookmark-form">
+                <input type="hidden" name="travel_id" value="{{ travel.id }}">
+                <button type="submit" class="bookmark-button">ブックマーク</button>
+            </form>
+        </div>
         {% endfor %}
         {% else %}
         <p class="no-data">旅行データが登録されていません。</p>
