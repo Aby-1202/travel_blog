@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>{{ travel.t_title }} の詳細</title>
+    <title>{{ post.t_title }} を編集</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='detail.css') }}">
 </head>
 <body>
@@ -14,33 +14,47 @@
           <a href="{{ url_for('auth.logout') }}">ログアウト</a>
       </div>
   </div>
-    <a href="{{ url_for('travel_details.travel_details') }}" class="my-travel-back-link">マイトラベル戻る</a>
-    <a href="{{ url_for('home.home') }}" class="my-travel-back-link">ホームに戻る</a>
 
-    <div class="container">
-      <div class="left-panel">
-        <div class="sticky-header">
-          <h2>{{ travel.t_title }} の詳細情報</h2>
-          <p><strong>場所:</strong> {{ travel.t_location }}</p>
-          <p><strong>人数:</strong> {{ travel.human_number }}人</p>
-          <p><strong>概要:</strong> {{ travel.overview }}</p>
-          <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-          <p><strong>期間:</strong> {{ duration_days }}日間</p>
-          <p><strong>作成者:</strong> {{ travel.username }}</p>
-        </div>
+  <a href="{{ url_for('my_travel.my_travel') }}" class="my-travel-back-link">マイトラベルに戻る</a>
+  <a href="{{ url_for('home.home') }}" class="my-travel-back-link">ホームに戻る</a>
 
-        <h3>これまでの旅行詳細</h3>
-        {% for detail in travel_details %}
-          <div class="detail-item">
-            <h4>{{ detail.day_number }}日目 - {{ detail.detail_name }}</h4>
-            <p>{{ detail.detail_text }}</p>
-            <p>訪問時間: {{ detail.visit_time }}</p>
-            <p><a href="{{ detail.location_url }}" target="_blank">リンク</a></p>
-          </div>
-        {% else %}
-          <p>まだ詳細はありません。</p>
-        {% endfor %}
+  <div class="container">
+    <div class="left-panel">
+      <div class="sticky-header">
+        <h2>{{ post.t_title }} の情報を編集</h2>
+
+        <form method="POST" action="{{ url_for('edit.edit', travel_id=post.id) }}" enctype="multipart/form-data">
+            <p><strong>タイトル:</strong><br>
+              <input type="text" name="title" value="{{ post.t_title }}" required></p>
+
+            <p><strong>場所:</strong><br>
+              <input type="text" name="location" value="{{ post.t_location }}" required></p>
+
+            <p><strong>人数:</strong><br>
+              <input type="number" name="human_number" value="{{ post.human_number }}" required></p>
+
+            <p><strong>概要:</strong><br>
+              <textarea name="overview" rows="4" cols="40">{{ post.overview }}</textarea></p>
+
+            <p><strong>開始日:</strong><br>
+              <input type="date" name="start_date" value="{{ post.start_date }}" required></p>
+
+            <p><strong>終了日:</strong><br>
+              <input type="date" name="end_days" value="{{ post.end_date }}" required></p>
+
+            {% if post.image_path %}
+              <p><strong>現在の画像:</strong><br>
+                <img src="{{ url_for('static', filename=post.image_path.split('static/')[-1]) }}" alt="現在の画像" width="200">
+              </p>
+            {% endif %}
+
+            <p><strong>画像を変更:</strong><br>
+              <input type="file" name="photo"></p>
+
+            <input type="submit" value="更新" class="submit-button">
+        </form>
       </div>
     </div>
+  </div>
 </body>
 </html>
