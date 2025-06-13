@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <!-- 外部CSSを読み込む -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
     <!-- ヘッダー情報（ユーザー名 + ログアウト + ユーザー情報） -->
@@ -19,14 +21,19 @@
         </div>
     </div>
 
-    
+
     <!-- ナビゲーションリンク -->
     {% set current = request.endpoint %}
     <div class="nav-links">
         <a href="{{ url_for('home.home') }}" class="{% if current == 'home.home' %}active{% endif %}">ホーム</a>
-        <a href="{{ url_for('my_travel.my_travel') }}" class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
-        <a href="{{ url_for('locations.locations') }}" class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
-        <a href="{{ url_for('input.input') }}" class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('my_travel.my_travel') }}"
+            class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
+        <a href="{{ url_for('locations.locations') }}"
+            class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
+        <a href="{{ url_for('input.input') }}"
+            class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('bookmark.bookmark') }}"
+            class="{% if current == 'bookmark.bookmark' %}active{% endif %}">ブックマーク</a>
     </div>
 
 
@@ -43,26 +50,32 @@
     <!-- 旅プラン一覧 -->
     <section class="plan-list">
         {% if travel_data_list is defined and travel_data_list %}
-            {% for travel in travel_data_list %}
+        {% for travel in travel_data_list %}
+        <div class="plan-card">
             <a href="{{ url_for('detail.detail', travel_id=travel.id) }}" class="custom-link">
-                <div class="plan-card">
-                    <h3>{{ travel.t_title }}</h3>
-                    <p><strong>場所:</strong> {{ travel.t_location }}</p>
-                    <p><strong>人数:</strong> {{ travel.human_number }}人</p>
-                    <p>
-                        <strong>概要:</strong>
-                        {{ travel.overview[:80] }}
-                        {% if travel.overview|length > 80 %}...{% endif %}
-                    </p>
-                    <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-                    <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
-                    <p><strong>作成者:</strong> {{ travel.username }}</p>
-                </div>
+                <h3>{{ travel.t_title }}</h3>
+                <p><strong>場所:</strong> {{ travel.t_location }}</p>
+                <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+                <p>
+                    <strong>概要:</strong>
+                    {{ travel.overview[:80] }}
+                    {% if travel.overview|length > 80 %}...{% endif %}
+                </p>
+                <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+                <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
+                <p><strong>作成者:</strong> {{ travel.username }}</p>
             </a>
-            {% endfor %}
+            <!-- ブックマークボタン -->
+            <form action="{{ url_for('bookmark.save_bookmark') }}" method="POST" class="bookmark-form">
+                <input type="hidden" name="travel_id" value="{{ travel.id }}">
+                <button type="submit" class="bookmark-button">ブックマーク</button>
+            </form>
+        </div>
+        {% endfor %}
         {% else %}
-            <p class="no-data">旅行データが登録されていません。</p>
+        <p class="no-data">旅行データが登録されていません。</p>
         {% endif %}
     </section>
 </body>
+
 </html>

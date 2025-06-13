@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ユーザー情報</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
+
 <body>
     <!-- ヘッダー情報（ユーザー名 + ログアウト + ユーザー情報） -->
     <div class="header-top">
@@ -17,12 +19,13 @@
         </div>
     </div>
 
-    
+
     <!-- ナビゲーションリンク -->
     <div class="nav-links">
         <a href="{{url_for('home.home')}}">ホーム</a>
         <a href="{{url_for('my_travel.my_travel')}}">MYトラベル</a>
         <a href="{{ url_for('input.input') }}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('bookmark.bookmark') }}">ブックマーク</a>
     </div>
 
     <h2>ユーザー情報詳細</h2>
@@ -33,4 +36,5 @@
         <li><strong>アカウント作成日時:</strong> {{ created_at }}</li>
     </ul>
 </body>
+
 </html>

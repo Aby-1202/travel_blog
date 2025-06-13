@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- ヘッダー -->
     <div class="header-top">
@@ -33,9 +35,14 @@
     {% set current = request.endpoint %}
     <div class="nav-links">
         <a href="{{ url_for('home.home') }}" class="{% if current == 'home.home' %}active{% endif %}">ホーム</a>
-        <a href="{{ url_for('my_travel.my_travel') }}" class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
-        <a href="{{ url_for('locations.locations') }}" class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
-        <a href="{{ url_for('input.input') }}" class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('my_travel.my_travel') }}"
+            class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
+        <a href="{{ url_for('locations.locations') }}"
+            class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
+        <a href="{{ url_for('input.input') }}"
+            class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('bookmark.bookmark') }}"
+            class="{% if current == 'bookmark.bookmark' %}active{% endif %}">ブックマーク</a>
     </div>
 
     <!-- 地図の表示エリア -->
@@ -55,4 +62,5 @@
             .openPopup();
     </script>
 </body>
+
 </html>

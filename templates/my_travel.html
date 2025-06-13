@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MYトラベル</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
+
 <body>
     <!-- ヘッダー情報（ユーザー名 + ログアウト + ユーザー情報） -->
     <div class="header-top">
@@ -17,36 +19,42 @@
         </div>
     </div>
 
-    
+
     <!-- ナビゲーションリンク -->
     {% set current = request.endpoint %}
     <div class="nav-links">
         <a href="{{ url_for('home.home') }}" class="{% if current == 'home.home' %}active{% endif %}">ホーム</a>
-        <a href="{{ url_for('my_travel.my_travel') }}" class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
-        <a href="{{ url_for('locations.locations') }}" class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
-        <a href="{{ url_for('input.input') }}" class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('my_travel.my_travel') }}"
+            class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
+        <a href="{{ url_for('locations.locations') }}"
+            class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
+        <a href="{{ url_for('input.input') }}"
+            class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('bookmark.bookmark') }}"
+            class="{% if current == 'bookmark.bookmark' %}active{% endif %}">ブックマーク</a>
     </div>
-    
+
     <h2>あなたの旅行一覧</h2>
 
     {% for travel in travel_data_list %}
     <a href="{{ url_for('travel_details_input.travel_details', travel_id=travel.id) }}" class="plan-card-link">
-      <div class="plan-card">
-          <h3>{{ travel.t_title }}</h3>
-          <p><strong>場所:</strong> {{ travel.t_location }}</p>
-          <p><strong>人数:</strong> {{ travel.human_number }}人</p>
-          <p>
-              <strong>概要:</strong>
-              {{ travel.overview[:80] }}
-              {% if travel.overview|length > 80 %}...{% endif %}
-          </p>
-          <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-          <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
-          <p><strong>作成者:</strong> {{ travel.username }}</p>
-      </div>
+        <div class="plan-card">
+            <h3>{{ travel.t_title }}</h3>
+            <p><strong>場所:</strong> {{ travel.t_location }}</p>
+            <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+            <p>
+                <strong>概要:</strong>
+                {{ travel.overview[:80] }}
+                {% if travel.overview|length > 80 %}...{% endif %}
+            </p>
+            <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+            <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
+            <p><strong>作成者:</strong> {{ travel.username }}</p>
+        </div>
     </a>
     {% endfor %}
-    
-    
+
+
 </body>
+
 </html>
