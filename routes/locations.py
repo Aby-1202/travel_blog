@@ -19,7 +19,9 @@ def locations():
 
     # ユーザーのtravel_dataに紐づくlocationsを取得
     cursor.execute("""
-        SELECT l.location_title, l.latitude, l.longitude, t.t_title
+        SELECT l.location_title, l.latitude, l.longitude,
+            t.t_title, t.start_date, t.end_date, t.human_number,
+            t.overview, t.id AS travel_id
         FROM locations l
         JOIN travel_data t ON l.travel_data_id = t.id
         WHERE t.u_id = ?
@@ -33,7 +35,13 @@ def locations():
         'title': row['location_title'],
         'lat': row['latitude'],
         'lng': row['longitude'],
-        'travel_title': row['t_title']
+        'travel_title': row['t_title'],
+        'start_date': row['start_date'],
+        'end_date': row['end_date'],
+        'human_number': row['human_number'],
+        'overview': row['overview'],
+        'travel_id': row['travel_id']
     } for row in location_data]
+
 
     return render_template('locations.html', user_id=user_id, username=username, locations=locations)
