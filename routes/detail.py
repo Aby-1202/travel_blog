@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, abort, session
 import sqlite3
 from datetime import datetime
+from .models import TravelData  # SQLAlchemyモデル
 
 detail_bp = Blueprint('detail', __name__, url_prefix='/travel')
 
@@ -8,6 +9,8 @@ detail_bp = Blueprint('detail', __name__, url_prefix='/travel')
 def detail(travel_id):
     # セッションからユーザー名を取得（未ログイン時は「ゲスト」）
     username = session.get('username', 'ゲスト')
+
+    travel_data = TravelData.query.get_or_404(travel_id)
 
     conn = sqlite3.connect('app.db')
     conn.row_factory = sqlite3.Row
@@ -52,6 +55,7 @@ def detail(travel_id):
 
     return render_template(
         'detail.html',
+        travel_data=travel_data,
         travel=travel_dict,
         travel_details=travel_details,
         duration_days=duration_days,

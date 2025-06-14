@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const markers = [];
 
     locations.forEach(loc => {
-        const detailUrl = `/travel/${loc.travel_id}`;  // ← 詳細ページへのリンク（Flask側と一致させてください）
+        const detailUrl = `/travel/${loc.travel_id}`;
 
         const popupContent = `
             <div>
@@ -31,11 +31,17 @@ document.addEventListener('DOMContentLoaded', function () {
             .addTo(map)
             .bindPopup(popupContent);
 
+        // ポップアップ表示（マウスオーバー）
         marker.on('mouseover', function () {
             this.openPopup();
         });
         marker.on('mouseout', function () {
             this.closePopup();
+        });
+
+        // ← 追加：クリックで詳細ページに飛ぶ
+        marker.on('click', function () {
+            window.location.href = detailUrl;
         });
 
         markers.push(marker);
