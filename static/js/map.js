@@ -11,14 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const markers = [];
 
     locations.forEach(loc => {
-        const detailUrl = `/travel/${loc.travel_id}`;  // ← 詳細ページへのリンク（Flask側と一致させてください）
+        const detailUrl = `/travel/${loc.travel_id}`;  // 詳細ページへのリンク
 
         const popupContent = `
             <div>
                 <a href="${detailUrl}" style="font-weight:bold; color:blue;">
                     ${loc.title}
                 </a><br>
-                travel_id: ${loc.travel_id}<br>
                 開始日: ${loc.start_date || '不明'}<br>
                 終了日: ${loc.end_date || '不明'}<br>
                 人数: ${loc.human_number || '未入力'}<br>
@@ -31,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .addTo(map)
             .bindPopup(popupContent);
 
+        // マウスオーバーでポップアップ表示
         marker.on('mouseover', function () {
             this.openPopup();
         });
@@ -38,9 +38,15 @@ document.addEventListener('DOMContentLoaded', function () {
             this.closePopup();
         });
 
+        // クリックで詳細ページへ遷移
+        marker.on('click', function () {
+            window.location.href = detailUrl;
+        });
+
         markers.push(marker);
     });
 
+    // マーカー全体が見えるように地図範囲を調整
     if (markers.length > 0) {
         const group = L.featureGroup(markers);
         map.fitBounds(group.getBounds().pad(0.5));
