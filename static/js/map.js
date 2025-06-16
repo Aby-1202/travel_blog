@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const mapDiv = document.getElementById('map');
     const locations = JSON.parse(mapDiv.dataset.locations);
 
+    // 初期表示：東京を中心に設定（ズーム10）
     const map = L.map('map').setView([35.6768601, 139.7638947], 10);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -46,19 +47,17 @@ document.addEventListener('DOMContentLoaded', function () {
         markers.push(marker);
     });
 
-    // マーカー全体が見えるように地図範囲を調整
-    if (markers.length > 0) {
-        const group = L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.5));
-    }
-    
-    // 必要に応じ、ボタンなどを用意して「全地点を表示」操作時にだけ fitBounds を呼ぶ方法もあります。
-    // 例：
-    // const btn = document.getElementById('fitBoundsBtn');
-    // btn.addEventListener('click', () => {
-    //     if (locations.length > 0) {
-    //         const group = new L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
-    //         map.fitBounds(group.getBounds().pad(0.5));
-    //     }
-    // });
+    // ★ fitBounds を削除し、マップの初期中心を固定（東京）とする
+    // マーカーの範囲に合わせて地図を動かさない
+
+    // ↓ fitBounds を使いたい場合は、以下のようにボタンで制御する方法を使う
+    /*
+    const btn = document.getElementById('fitBoundsBtn');
+    btn.addEventListener('click', () => {
+        if (markers.length > 0) {
+            const group = new L.featureGroup(markers);
+            map.fitBounds(group.getBounds().pad(0.5));
+        }
+    });
+    */
 });
