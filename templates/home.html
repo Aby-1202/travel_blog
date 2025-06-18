@@ -21,7 +21,6 @@
         </div>
     </div>
 
-
     <!-- ナビゲーションリンク -->
     {% set current = request.endpoint %}
     <div class="nav-links">
@@ -32,16 +31,14 @@
             class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
         <a href="{{ url_for('input.input') }}"
             class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
-        <a href="{{ url_for('bookmark.bookmark') }}"
-            class="{% if current == 'bookmark.bookmark' %}active{% endif %}">ブックマーク</a>
+        <a href="{{ url_for('favorite_bookmark.favorite_bookmark') }}"
+            class="{% if current == 'favorite_bookmark.favorite_bookmark' %}active{% endif %}">ブックマーク</a>
     </div>
-
 
     <!-- 地図画像と検索フォーム -->
     <!--<div class="header">
         <div class="narrow-banner">
             <img src="{{ url_for('static', filename='travel_images/screenshot2.png') }}" alt="バナー画像">
->>>>>>> create-css
         </div>
     </div>-->
 
@@ -65,11 +62,18 @@
                 <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
                 <p><strong>作成者:</strong> {{ travel.username }}</p>
             </a>
-            <!-- ブックマークボタン -->
-            <form action="{{ url_for('bookmark.save_bookmark') }}" method="POST" class="bookmark-form">
+            <!-- ブックマークボタン：状態によって切り替え -->
+            {% if travel.is_bookmarked %}
+            <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">
+                <input type="hidden" name="travel_id" value="{{ travel.id }}">
+                <button type="submit" class="bookmark-button">ブックマーク解除</button>
+            </form>
+            {% else %}
+            <form action="{{ url_for('favorite_bookmark.add_bookmark') }}" method="POST" class="bookmark-form">
                 <input type="hidden" name="travel_id" value="{{ travel.id }}">
                 <button type="submit" class="bookmark-button">ブックマーク</button>
             </form>
+            {% endif %}
         </div>
         {% endfor %}
         {% else %}

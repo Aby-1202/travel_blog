@@ -19,7 +19,6 @@
         </div>
     </div>
 
-
     <!-- ナビゲーションリンク -->
     {% set current = request.endpoint %}
     <div class="nav-links">
@@ -30,8 +29,8 @@
             class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
         <a href="{{ url_for('input.input') }}"
             class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
-        <a href="{{ url_for('bookmark.bookmark') }}"
-            class="{% if current == 'bookmark.bookmark' %}active{% endif %}">ブックマーク</a>
+        <a href="{{ url_for('favorite_bookmark.favorite_bookmark') }}"
+            class="{% if current == 'favorite_bookmark.favorite_bookmark' %}active{% endif %}">ブックマーク</a>
     </div>
 
     <h2>あなたの旅行一覧</h2>
@@ -53,7 +52,6 @@
         </div>
     </a>
     {% endfor %}
-
 
 </body>
 
