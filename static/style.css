@@ -135,3 +135,66 @@ body {
 .bookmark-button:hover {
     background-color: #ff9900;
 }
+
+/* タブ切替ボタン */
+.tab-buttons {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.tab-buttons button {
+    flex: 1;
+    padding: 0.7em 0;
+    background: #ececec;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+}
+
+.tab-buttons button.active {
+    background: #007BFF;
+    color: #fff;
+}
+
+.tab-buttons button:not(:last-child) {
+    margin-right: 4px;
+}
+
+/* タブの内容 */
+.tab-content {
+    display: none;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 1em;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.travel-item {
+    margin: 1em 0;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5em;
+}
+
+.travel-item:last-child {
+    border-bottom: none;
+}
+
+.travel-item a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.travel-item a:hover {
+    color: #0056b3;
+}

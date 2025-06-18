@@ -18,27 +18,38 @@ def home():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT travel_data.*, users_table.u_name AS username
+        SELECT 
+            travel_data.*, 
+            users_table.u_name AS username,
+            CASE 
+                WHEN bookmark_data.id IS NOT NULL THEN 1
+                ELSE 0
+            END AS is_bookmarked
         FROM travel_data
         JOIN users_table ON travel_data.u_id = users_table.id
-    """)
+        LEFT JOIN bookmark_data 
+            ON travel_data.id = bookmark_data.t_id 
+            AND bookmark_data.u_id = ?
+        ORDER BY travel_data.id DESC
+    """, (user_id,))
     travel_data_list = cursor.fetchall()
 
     conn.close()
 
-    # 日数計算を追加
+    # 各旅行について 日数計算 & is_bookmarkedをboolに変換
     travel_data_with_duration = []
     for travel in travel_data_list:
         try:
             start_date = datetime.strptime(travel['start_date'], "%Y-%m-%d")
             end_date = datetime.strptime(travel['end_date'], "%Y-%m-%d")
-            duration_days = (end_date - start_date).days + 1  # 1日も含めるため+1
+            duration_days = (end_date - start_date).days + 1
         except Exception:
             duration_days = "不明"
 
-        # sqlite3.Row は辞書風だけどイミュータブルなので辞書に変換して加工
         travel_dict = dict(travel)
         travel_dict['duration_days'] = duration_days
+        # 修正: 'get'でなく直接キー指定で
+        travel_dict['is_bookmarked'] = bool(travel['is_bookmarked'])
         travel_data_with_duration.append(travel_dict)
 
     return render_template(
