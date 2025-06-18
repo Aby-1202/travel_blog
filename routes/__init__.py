@@ -9,3 +9,4 @@ from .travel_details_input import travel_details_input_bp
 from .detail import detail_bp
 from .locations import locations_bp
 from .bookmark import bookmark_bp
+from .edit import edit_bp
