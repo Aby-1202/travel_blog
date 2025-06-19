@@ -46,6 +46,22 @@ body {
   margin-bottom: 20px;
   border-bottom: 2px solid #ccc;
   border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;  /* 上下中央揃え */
+  gap: 20px;            /* テキストと画像の間の余白 */
+}
+
+/* 2. テキスト側コンテナ */
+.text-block {
+  flex: 1;              /* 画像があってもテキスト部分が伸びる */
+}
+
+.image-block img {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .sticky-header h2 {
