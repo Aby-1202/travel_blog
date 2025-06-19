@@ -134,3 +134,21 @@ body {
 .my-travel-back-link:hover {
     background-color: #34495e; /* ホバー時の色変化 */
 }
+
+.info-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.info-text {
+    flex: 1;
+}
+
+.info-image img {
+    width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
