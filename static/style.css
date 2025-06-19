@@ -214,3 +214,13 @@ body {
     border-radius: 8px;
     object-fit: cover;
 }
+
+.card-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  
+}
+
+.bookmark-form {
+    margin-top: auto;  
+}
