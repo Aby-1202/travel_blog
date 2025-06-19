@@ -45,7 +45,7 @@
     <div id="bookmark-content" class="tab-content active">
         {% if bookmarked_travel_items %}
         {% for item in bookmarked_travel_items %}
-        <div class="plan-card">
+        <div class="plan-card horizontal-card">
             <a href="{{ url_for('detail.detail', travel_id=item.id) }}" class="custom-link">
                 <h3>{{ item.t_title }}</h3>
                 <p><strong>場所:</strong> {{ item.t_location }}</p>
