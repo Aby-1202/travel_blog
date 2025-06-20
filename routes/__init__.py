@@ -10,3 +10,4 @@ from .detail import detail_bp
 from .locations import locations_bp
 from .edit import edit_bp
 from .favorite_bookmark import favorite_bookmark_bp
+from .search_travel import search_travel_bp
