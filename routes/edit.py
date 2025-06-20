@@ -1,10 +1,42 @@
 import traceback
+import time
+import requests
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
 
 edit_bp = Blueprint('edit', __name__)
+
+def get_location_info(location_name):
+    time.sleep(1.2)  # API制限に配慮
+    try:
+        url = 'https://nominatim.openstreetmap.org/search'
+        params = {
+            'q': location_name,
+            'format': 'json',
+            'limit': 1
+        }
+        headers = {
+            'User-Agent': 'shabaspi-travel-map/1.0 (contact: your_email@example.com)'
+        }
+        response = requests.get(url, params=params, headers=headers, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        if data:
+            lat = float(data[0]['lat'])
+            lon = float(data[0]['lon'])
+            return lat, lon
+        else:
+            print(f"[INFO] 緯度経度が見つかりませんでした: {location_name}")
+            return None, None
+    except requests.exceptions.HTTPError as e:
+        print(f"[HTTPエラー] {e} ({response.status_code})")
+    except requests.exceptions.RequestException as e:
+        print(f"[通信エラー] {e}")
+    except Exception as e:
+        print(f"[エラー] 位置情報取得失敗: {e}")
+    return None, None
 
 @edit_bp.route('/edit/<int:travel_id>', methods=['GET', 'POST'])
 def edit(travel_id):
@@ -21,7 +53,6 @@ def edit(travel_id):
 
     if request.method == 'POST':
         try:
-            # 旅行基本情報
             title = request.form['title']
             location = request.form['location']
             human_number = request.form['human_number']
@@ -29,7 +60,6 @@ def edit(travel_id):
             start_date = request.form['start_date']
             end_date = request.form['end_days']
 
-            # 画像
             photo = request.files.get('photo')
             image_path = None
             if photo and photo.filename:
@@ -37,7 +67,6 @@ def edit(travel_id):
                 image_path = os.path.join('static/images', filename)
                 photo.save(image_path)
 
-            # 旅行基本情報を更新
             update_sql = """
                 UPDATE travel_data
                 SET t_title = ?, t_location = ?, human_number = ?, overview = ?, start_date = ?, end_date = ?
@@ -48,10 +77,15 @@ def edit(travel_id):
             if image_path:
                 cursor.execute("UPDATE travel_data SET image_path = ? WHERE id = ?", (image_path, travel_id))
 
-            # --------------------
-            # travel_details の処理
-            # --------------------
-            # 既存データの更新
+            # t_locationから緯度経度を再取得し、locationsテーブルを更新
+            lat, lng = get_location_info(location)
+            if lat is not None and lng is not None:
+                cursor.execute("DELETE FROM locations WHERE travel_data_id = ?", (travel_id,))
+                cursor.execute("""
+                    INSERT INTO locations (location_title, travel_data_id, latitude, longitude)
+                    VALUES (?, ?, ?, ?)
+                """, (location, travel_id, lat, lng))
+
             detail_ids = request.form.getlist('detail_id')
             for detail_id in detail_ids:
                 dname = request.form.get(f'detail_name_{detail_id}')
@@ -59,19 +93,16 @@ def edit(travel_id):
                 dday = request.form.get(f'day_number_{detail_id}')
                 dtime = request.form.get(f'visit_time_{detail_id}')
                 durl = request.form.get(f'location_url_{detail_id}')
-
                 cursor.execute("""
                     UPDATE travel_details
                     SET detail_name = ?, detail_text = ?, day_number = ?, visit_time = ?, location_url = ?
                     WHERE id = ? AND travel_data_id = ?
                 """, (dname, dtext, dday, dtime, durl, detail_id, travel_id))
 
-            # 削除対象の詳細情報
             delete_ids = request.form.getlist('delete_detail')
             for delete_id in delete_ids:
                 cursor.execute("DELETE FROM travel_details WHERE id = ? AND travel_data_id = ?", (delete_id, travel_id))
 
-            # 新規追加データ
             new_names = request.form.getlist('new_detail_name')
             new_texts = request.form.getlist('new_detail_text')
             new_days = request.form.getlist('new_day_number')
@@ -79,7 +110,7 @@ def edit(travel_id):
             new_urls = request.form.getlist('new_location_url')
 
             for dname, dtext, dday, dtime, durl in zip(new_names, new_texts, new_days, new_times, new_urls):
-                if dname:  # 名前が空でなければ保存
+                if dname:
                     cursor.execute("""
                         INSERT INTO travel_details (travel_data_id, detail_name, detail_text, day_number, visit_time, location_url)
                         VALUES (?, ?, ?, ?, ?, ?)
@@ -94,13 +125,10 @@ def edit(travel_id):
             print(traceback.format_exc())
             flash("更新に失敗しました")
 
-    # GETリクエスト：表示
     cursor.execute("SELECT * FROM travel_data WHERE id = ? AND u_id = ?", (travel_id, user_id))
     post = cursor.fetchone()
-
     cursor.execute("SELECT * FROM travel_details WHERE travel_data_id = ? ORDER BY day_number", (travel_id,))
     details = cursor.fetchall()
-
     conn.close()
 
     if not post:
