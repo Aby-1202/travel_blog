@@ -18,22 +18,24 @@ def home():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT 
-            travel_data.*, 
-            users_table.u_name AS username,
-            CASE 
-                WHEN bookmark_data.id IS NOT NULL THEN 1
-                ELSE 0
-            END AS is_bookmarked
-        FROM travel_data
-        JOIN users_table ON travel_data.u_id = users_table.id
-        LEFT JOIN bookmark_data 
-            ON travel_data.id = bookmark_data.t_id 
-            AND bookmark_data.u_id = ?
-        ORDER BY travel_data.id DESC
+        SELECT
+            td.*,
+            ut.u_name AS username,
+            -- このユーザーがブックマーク済みかどうか
+            CASE WHEN bd.id IS NOT NULL THEN 1 ELSE 0 END AS is_bookmarked,
+            -- 累計ブックマーク数
+            (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id)   AS bookmark_count,
+            -- 累計いいね数
+            (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id)   AS favorite_count
+        FROM travel_data td
+        JOIN users_table ut
+            ON td.u_id = ut.id
+        LEFT JOIN bookmark_data bd
+            ON td.id   = bd.t_id
+            AND bd.u_id = ?
+        ORDER BY td.id DESC
     """, (user_id,))
     travel_data_list = cursor.fetchall()
-
     conn.close()
 
     # 各旅行について 日数計算 & is_bookmarkedをboolに変換

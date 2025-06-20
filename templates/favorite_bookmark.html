@@ -60,6 +60,8 @@
                         <p><strong>開始日:</strong> {{ item.start_date }}</p>
                         <p><strong>期間:</strong> {{ item.duration_days }}日間</p>
                         <p><strong>作成者:</strong> {{ item.username }}</p>
+                        <p><strong>ブックマーク数:</strong> {{ item.bookmark_count }} 件</p>
+                        <p><strong>いいね数:</strong> {{ item.favorite_count }} 件</p>
                     </div>
                 </a>
                 <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">
@@ -98,6 +100,8 @@
                         <p><strong>開始日:</strong> {{ item.start_date }}</p>
                         <p><strong>期間:</strong> {{ item.duration_days }}日間</p>
                         <p><strong>作成者:</strong> {{ item.username }}</p>
+                        <p><strong>ブックマーク数:</strong> {{ item.bookmark_count }} 件</p>
+                        <p><strong>いいね数:</strong> {{ item.favorite_count }} 件</p>
                     </div>
                 </a>
                 <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">

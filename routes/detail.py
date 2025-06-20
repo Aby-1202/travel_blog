@@ -15,10 +15,17 @@ def detail(travel_id):
 
     # travel_data と作成者情報を取得
     cursor.execute("""
-        SELECT travel_data.*, users_table.u_name AS username
-        FROM travel_data
-        JOIN users_table ON travel_data.u_id = users_table.id
-        WHERE travel_data.id = ?
+        SELECT
+            td.*,
+            ut.u_name        AS username,
+            -- 累計ブックマーク数
+            (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id) AS bookmark_count,
+            -- 累計いいね数
+            (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count
+        FROM travel_data td
+        JOIN users_table ut
+            ON td.u_id = ut.id
+        WHERE td.id = ?
     """, (travel_id,))
     travel = cursor.fetchone()
 
