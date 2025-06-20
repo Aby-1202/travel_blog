@@ -12,14 +12,9 @@ import time
 def get_location_info(location_name):
     """
     入力された地名から緯度・経度を取得する関数。
-
-    Parameters:
-        location_name (str): 地名（例："東京タワー"）
-
-    Returns:
-        tuple: (緯度, 経度) 取得できなかった場合は (None, None)
+    Nominatimの利用制限に配慮し、User-Agentと待機時間に注意。
     """
-    time.sleep(1)  # Nominatim APIの利用制限に配慮して1秒待機
+    time.sleep(1.2)  # 厳密に1秒以上待機
 
     try:
         url = 'https://nominatim.openstreetmap.org/search'
@@ -29,11 +24,12 @@ def get_location_info(location_name):
             'limit': 1
         }
         headers = {
-            'User-Agent': 'travel-blog-app (your_email@example.com)'  # 任意の連絡先に変更可
+            'User-Agent': 'shabaspi-travel-map/1.0 (contact: your_email@example.com)'
         }
 
-        response = requests.get(url, params=params, headers=headers)
+        response = requests.get(url, params=params, headers=headers, timeout=10)
         response.raise_for_status()
+
         data = response.json()
 
         if data:
@@ -41,11 +37,17 @@ def get_location_info(location_name):
             lon = float(data[0]['lon'])
             return lat, lon
         else:
+            print(f"[INFO] 緯度経度が見つかりませんでした: {location_name}")
             return None, None
 
+    except requests.exceptions.HTTPError as e:
+        print(f"[HTTPエラー] {e} ({response.status_code})")
+    except requests.exceptions.RequestException as e:
+        print(f"[通信エラー] {e}")
     except Exception as e:
         print(f"[エラー] 位置情報取得失敗: {e}")
-        return None, None
+
+    return None, None
 
 
 input_bp = Blueprint('input', __name__, url_prefix='')
