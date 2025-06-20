@@ -69,13 +69,9 @@ body {
 
 .narrow-banner img {
     width: 100vw;
-    /* 横幅：画面いっぱい */
     height: 200px;
-    /* 高さ：20px固定 */
     object-fit: cover;
-    /* はみ出し部分をカット */
     object-position: top;
-    /* ← 表示したい位置に調整 */
     display: block;
 }
 
@@ -94,9 +90,7 @@ body {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
-    /* ← 縦に並べる */
     gap: 20px;
-    /* 各カードの間隔 */
     padding: 10px;
 }
 
@@ -197,4 +191,36 @@ body {
 
 .travel-item a:hover {
     color: #0056b3;
+}
+
+.horizontal-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.card-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-image img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.card-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  
+}
+
+.bookmark-form {
+    margin-top: auto;  
 }

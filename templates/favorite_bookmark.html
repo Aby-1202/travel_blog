@@ -45,24 +45,33 @@
     <div id="bookmark-content" class="tab-content active">
         {% if bookmarked_travel_items %}
         {% for item in bookmarked_travel_items %}
-        <div class="plan-card">
-            <a href="{{ url_for('detail.detail', travel_id=item.id) }}" class="custom-link">
-                <h3>{{ item.t_title }}</h3>
-                <p><strong>場所:</strong> {{ item.t_location }}</p>
-                <p><strong>人数:</strong> {{ item.human_number }}人</p>
-                <p>
-                    <strong>概要:</strong>
-                    {{ item.overview[:80] }}
-                    {% if item.overview|length > 80 %}...{% endif %}
-                </p>
-                <p><strong>開始日:</strong> {{ item.start_date }}</p>
-                <p><strong>期間:</strong> {{ item.duration_days }}日間</p>
-                <p><strong>作成者:</strong> {{ item.username }}</p>
-            </a>
-            <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">
-                <input type="hidden" name="travel_id" value="{{ item.id }}">
-                <button type="submit" class="bookmark-button">ブックマーク解除</button>
-            </form>
+        <div class="plan-card horizontal-card">
+            <div class="card-left">
+                <a href="{{ url_for('detail.detail', travel_id=item.id) }}" class="custom-link">
+                    <div class="card-text">
+                        <h3>{{ item.t_title }}</h3>
+                        <p><strong>場所:</strong> {{ item.t_location }}</p>
+                        <p><strong>人数:</strong> {{ item.human_number }}人</p>
+                        <p>
+                            <strong>概要:</strong>
+                            {{ item.overview[:80] }}
+                            {% if item.overview|length > 80 %}...{% endif %}
+                        </p>
+                        <p><strong>開始日:</strong> {{ item.start_date }}</p>
+                        <p><strong>期間:</strong> {{ item.duration_days }}日間</p>
+                        <p><strong>作成者:</strong> {{ item.username }}</p>
+                    </div>
+                </a>
+                <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">
+                    <input type="hidden" name="travel_id" value="{{ item.id }}">
+                    <button type="submit" class="bookmark-button">ブックマーク解除</button>
+                </form>
+            </div>
+            {% if item.image_path %}
+            <div class="card-image">
+                <img src="{{ url_for('static', filename='uploads/' ~ item.image_path) }}" alt="旅の画像">
+            </div>
+            {% endif %}
         </div>
         {% endfor %}
         {% else %}
@@ -74,24 +83,33 @@
     <div id="favorite-content" class="tab-content">
         {% if favorited_travel_items %}
         {% for item in favorited_travel_items %}
-        <div class="plan-card">
-            <a href="{{ url_for('detail.detail', travel_id=item.id) }}" class="custom-link">
-                <h3>{{ item.t_title }}</h3>
-                <p><strong>場所:</strong> {{ item.t_location }}</p>
-                <p><strong>人数:</strong> {{ item.human_number }}人</p>
-                <p>
-                    <strong>概要:</strong>
-                    {{ item.overview[:80] }}
-                    {% if item.overview|length > 80 %}...{% endif %}
-                </p>
-                <p><strong>開始日:</strong> {{ item.start_date }}</p>
-                <p><strong>期間:</strong> {{ item.duration_days }}日間</p>
-                <p><strong>作成者:</strong> {{ item.username }}</p>
-            </a>
-            <form action="{{ url_for('favorite_bookmark.remove_favorite') }}" method="POST" class="bookmark-form">
-                <input type="hidden" name="travel_id" value="{{ item.id }}">
-                <button type="submit" class="bookmark-button">お気に入り解除</button>
-            </form>
+        <div class="plan-card horizontal-card">
+            <div class="card-left">
+                <a href="{{ url_for('detail.detail', travel_id=item.id) }}" class="custom-link">
+                    <div class="card-text">
+                        <h3>{{ item.t_title }}</h3>
+                        <p><strong>場所:</strong> {{ item.t_location }}</p>
+                        <p><strong>人数:</strong> {{ item.human_number }}人</p>
+                        <p>
+                            <strong>概要:</strong>
+                            {{ item.overview[:80] }}
+                            {% if item.overview|length > 80 %}...{% endif %}
+                        </p>
+                        <p><strong>開始日:</strong> {{ item.start_date }}</p>
+                        <p><strong>期間:</strong> {{ item.duration_days }}日間</p>
+                        <p><strong>作成者:</strong> {{ item.username }}</p>
+                    </div>
+                </a>
+                <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">
+                    <input type="hidden" name="travel_id" value="{{ item.id }}">
+                    <button type="submit" class="bookmark-button">ブックマーク解除</button>
+                </form>
+            </div>
+            {% if item.image_path %}
+            <div class="card-image">
+                <img src="{{ url_for('static', filename='uploads/' ~ item.image_path) }}" alt="旅の画像">
+            </div>
+            {% endif %}
         </div>
         {% endfor %}
         {% else %}

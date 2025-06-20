@@ -21,7 +21,8 @@
 
   <div class="container">
     <div class="left-panel">
-      <div class="sticky-header">
+    <div class="sticky-header">
+      <div class="text-block">
         <h2>{{ travel.t_title }} の詳細情報</h2>
         <p><strong>場所:</strong> {{ travel.t_location }}</p>
         <p><strong>人数:</strong> {{ travel.human_number }}人</p>
@@ -43,6 +44,13 @@
         {% endif %}
         <!-- お気に入りボタン分岐ここまで -->
       </div>
+
+      {% if travel.image_path %}
+      <div class="image-block">
+        <img src="{{ url_for('static', filename='uploads/' ~ travel.image_path) }}" alt="旅行画像">
+      </div>
+      {% endif %}
+    </div>
 
       <h3>これまでの旅行詳細</h3>
       {% for detail in travel_details %}
