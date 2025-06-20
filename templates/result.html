@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>検索結果</title></head>
+<body>
+    <h1>検索結果</h1>
+    {% if results %}
+        <ul>
+        {% for post in results %}
+            <li>
+                <strong>{{ post.title }}</strong><br>
+                場所: {{ post.location }} / 人数: {{ post.human_number }}<br>
+                類似度: {{ post.similarity }}<br>
+                概要: {{ post.overview }}
+            </li><br>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>類似する投稿は見つかりませんでした。</p>
+    {% endif %}
+
+    <a href="{{ url_for('my_travel.my_travel') }}" class="my-travel-back-link">マイトラベルに戻る</a>
+    <a href="{{ url_for('home.home') }}" class="my-travel-back-link">ホームに戻る</a>
+</body>
+</html>
