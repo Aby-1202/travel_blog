@@ -1,54 +1,39 @@
-from flask import Flask, render_template, request, Blueprint
+# routes/search_travel.py
+
 import sqlite3
-import numpy as np
+from flask import Blueprint, render_template, request
 
-app = Flask(__name__)
-search_travel_bp = Blueprint('search_travel', __name__)
+# Blueprint 名を search_travel_bp に
+search_travel_bp = Blueprint('search_travel', __name__, url_prefix='/search_travel')
 
-# DBから投稿全件取得
-def get_all_travels():
-    conn = sqlite3.connect('travel_data.db')
-    cursor = conn.cursor()
-    cursor.execute("""
-        SELECT t_id, t_title, t_location, human_number, overview, 
-               julianday('now') - julianday(t_created_at) as duration_days
-        FROM travel_table
-    """)
-    data = cursor.fetchall()
-    conn.close()
-    return data
-
-@app.route('/search_travel', methods=['GET', 'POST'])
+@search_travel_bp.route('/', methods=['GET', 'POST'])
 def search_travel():
+    conn = sqlite3.connect('app.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    results = []
+    query = ''
     if request.method == 'POST':
-        # 入力取得
-        location = request.form.get('location', '')
-        human_number = request.form.get('human_number', '')
-        overview = request.form.get('overview', '')
-        duration = request.form.get('duration', '')
+        query = request.form.get('query', '').strip()
+        if query:
+            cursor.execute(
+                """
+                SELECT td.*, u.u_name AS username
+                    FROM travel_data AS td
+                    JOIN users_table AS u 
+                    ON td.u_id = u.id
+                    WHERE td.t_title LIKE ?
+                    OR td.t_location LIKE ?
+                    ORDER BY td.start_date DESC
+                """,
+                (f'%{query}%', f'%{query}%')
+            )
+            results = cursor.fetchall()
 
-        # 入力を1つの文章に
-        input_text = f"{location} 人数:{human_number} 概要:{overview} 滞在日数:{duration}"
-
-        # DBから投稿データ取得
-        records = get_all_travels()
-        if not records:
-            return render_template("results.html", results=[])
-
-        ids, texts, original_data = [], [], []
-
-        for row in records:
-            t_id, title, loc, num, ov, dur = row
-            doc = f"{loc} 人数:{num} 概要:{ov} 滞在日数:{int(dur)}"
-            ids.append(t_id)
-            texts.append(doc)
-            original_data.append({
-                "title": title,
-                "location": loc,
-                "human_number": num,
-                "overview": ov
-            })
-
-        return render_template("results.html", results=original_data, input_text=input_text, ids=ids, texts=texts)
-
-    return render_template("search_travel.html")
+    conn.close()
+    return render_template(
+        'search_travel.html',
+        travel_data_list=results,
+        query=query
+    )

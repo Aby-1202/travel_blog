@@ -39,17 +39,23 @@ def favorite_bookmark():
     cursor.execute("""
         SELECT
             td.*,
-            f.created_at        AS favorite_created_at,
-            -- 累計ブックマーク数
+            f.created_at   AS favorite_created_at,
+            -- 累計数
             (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id) AS bookmark_count,
-            -- 累計いいね数
-            (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count
+            (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count,
+            -- このユーザーがブックマーク済みか
+            CASE WHEN EXISTS (
+                SELECT 1
+                FROM bookmark_data bd
+                WHERE bd.t_id = td.id
+                AND bd.u_id = ?
+            ) THEN 1 ELSE 0 END AS is_bookmarked
         FROM travel_data td
         INNER JOIN favorites f
-            ON td.id = f.t_id
+        ON td.id = f.t_id
         WHERE f.u_id = ?
         ORDER BY f.created_at DESC
-    """, (user_id,))
+    """, (user_id, user_id))
     favorited_travel_items = cursor.fetchall()
 
     conn.close()
