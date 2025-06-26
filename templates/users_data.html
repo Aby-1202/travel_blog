@@ -31,6 +31,8 @@
             class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
         <a href="{{ url_for('favorite_bookmark.favorite_bookmark') }}"
             class="{% if current == 'favorite_bookmark.favorite_bookmark' %}active{% endif %}">ブックマーク</a>
+        <a href="{{ url_for('search_travel.search_travel') }}"
+            class="{% if current == 'search_travel.search_travel' %}active{% endif %}">旅行検索</a>
     </div>
 
     <h2>ユーザー情報詳細</h2>
