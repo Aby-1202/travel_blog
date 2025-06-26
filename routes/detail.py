@@ -25,7 +25,7 @@ def kanji_to_int(kanji):
 
     unit_map = {'十': 10, '百': 100, '千': 1000, '万': 10000}
     num_map = {'〇': 0, '零': 0, '一': 1, '二': 2, '三': 3, '四': 4,
-               '五': 5, '六': 6, '七': 7, '八': 8, '九': 9}
+                '五': 5, '六': 6, '七': 7, '八': 8, '九': 9}
 
     kanji = kanji.strip()
 
@@ -62,6 +62,7 @@ def extract_total_cost_from_text(text):
     return total
 @detail_bp.route('/<int:travel_id>')
 def detail(travel_id):
+    user_id = session.get('user_id')
     username = session.get('username', 'ゲスト')
 
     conn = sqlite3.connect('app.db')
@@ -69,19 +70,34 @@ def detail(travel_id):
     cursor = conn.cursor()
 
     # 旅行情報取得
-    cursor.execute("""
-        SELECT
-            td.*,
-            ut.u_name        AS username,
-            -- 累計ブックマーク数
-            (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id) AS bookmark_count,
-            -- 累計いいね数
-            (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count
-        FROM travel_data td
-        JOIN users_table ut
-            ON td.u_id = ut.id
-        WHERE td.id = ?
-    """, (travel_id,))
+    if user_id:
+        cursor.execute("""
+            SELECT
+                td.*,
+                ut.u_name AS username,
+                (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id) AS bookmark_count,
+                (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count,
+                CASE WHEN EXISTS (
+                    SELECT 1 FROM favorites f
+                    WHERE f.t_id = td.id
+                    AND f.u_id = ?
+                ) THEN 1 ELSE 0 END AS is_favorited
+            FROM travel_data td
+            JOIN users_table ut ON td.u_id = ut.id
+            WHERE td.id = ?
+        """, (user_id, travel_id))
+    else:
+        cursor.execute("""
+            SELECT
+                td.*,
+                ut.u_name AS username,
+                (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id) AS bookmark_count,
+                (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count,
+                0 AS is_favorited
+            FROM travel_data td
+            JOIN users_table ut ON td.u_id = ut.id
+            WHERE td.id = ?
+        """, (travel_id,))
     travel = cursor.fetchone()
 
     if travel is None:
