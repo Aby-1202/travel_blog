@@ -33,6 +33,8 @@
             class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
         <a href="{{ url_for('favorite_bookmark.favorite_bookmark') }}"
             class="{% if current == 'favorite_bookmark.favorite_bookmark' %}active{% endif %}">ブックマーク</a>
+        <a href="{{ url_for('search_travel.search_travel') }}"
+            class="{% if current == 'search_travel.search_travel' %}active{% endif %}">旅行検索</a>
     </div>
 
     <!-- 地図画像と検索フォーム -->
@@ -62,6 +64,8 @@
                     <p><strong>開始日:</strong> {{ travel.start_date }}</p>
                     <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
                     <p><strong>作成者:</strong> {{ travel.username }}</p>
+                    <p><strong>ブックマーク数:</strong> {{ travel.bookmark_count }} 件</p>
+                    <p><strong>お気に入り数:</strong> {{ travel.favorite_count }} 件</p>
                 </a>
             <!-- ブックマークボタン：状態によって切り替え -->
                 {% if travel.is_bookmarked %}

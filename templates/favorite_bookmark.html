@@ -31,6 +31,8 @@
             class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
         <a href="{{ url_for('favorite_bookmark.favorite_bookmark') }}"
             class="{% if current == 'favorite_bookmark.favorite_bookmark' %}active{% endif %}">ブックマーク</a>
+        <a href="{{ url_for('search_travel.search_travel') }}"
+            class="{% if current == 'search_travel.search_travel' %}active{% endif %}">旅行検索</a>
     </div>
 
     <h1>お気に入りとブックマーク</h1>
@@ -60,6 +62,8 @@
                         <p><strong>開始日:</strong> {{ item.start_date }}</p>
                         <p><strong>期間:</strong> {{ item.duration_days }}日間</p>
                         <p><strong>作成者:</strong> {{ item.username }}</p>
+                        <p><strong>ブックマーク数:</strong> {{ item.bookmark_count }} 件</p>
+                        <p><strong>お気に入り数:</strong> {{ item.favorite_count }} 件</p>
                     </div>
                 </a>
                 <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">
@@ -98,12 +102,25 @@
                         <p><strong>開始日:</strong> {{ item.start_date }}</p>
                         <p><strong>期間:</strong> {{ item.duration_days }}日間</p>
                         <p><strong>作成者:</strong> {{ item.username }}</p>
+                        <p><strong>ブックマーク数:</strong> {{ item.bookmark_count }} 件</p>
+                        <p><strong>お気に入り数:</strong> {{ item.favorite_count }} 件</p>
                     </div>
                 </a>
-                <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">
-                    <input type="hidden" name="travel_id" value="{{ item.id }}">
-                    <button type="submit" class="bookmark-button">ブックマーク解除</button>
-                </form>
+                {% if item.is_bookmarked %}
+                    <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}"
+                        method="POST"
+                        class="bookmark-form">
+                        <input type="hidden" name="travel_id" value="{{ item.id }}">
+                        <button type="submit" class="bookmark-button">ブックマーク解除</button>
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('favorite_bookmark.add_bookmark') }}"
+                        method="POST"
+                        class="bookmark-form">
+                        <input type="hidden" name="travel_id" value="{{ item.id }}">
+                        <button type="submit" class="bookmark-button">ブックマーク</button>
+                    </form>
+                {% endif %}
             </div>
             {% if item.image_path %}
             <div class="card-image">

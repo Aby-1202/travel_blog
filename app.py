@@ -11,7 +11,8 @@ from routes import (
     detail_bp,
     locations_bp,
     edit_bp,
-    favorite_bookmark_bp
+    favorite_bookmark_bp,
+    search_travel_bp
 )
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -32,6 +33,7 @@ app.register_blueprint(detail_bp)
 app.register_blueprint(locations_bp)
 app.register_blueprint(edit_bp)
 app.register_blueprint(favorite_bookmark_bp)
+app.register_blueprint(search_travel_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)

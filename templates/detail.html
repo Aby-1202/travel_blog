@@ -30,17 +30,23 @@
         <p><strong>開始日:</strong> {{ travel.start_date }}</p>
         <p><strong>期間:</strong> {{ duration_days }}日間</p>
         <p><strong>作成者:</strong> {{ travel.username }}</p>
+        <p><strong>ブックマーク数:</strong> {{ travel.bookmark_count }} 件</p>
+        <p><strong>お気に入り数:</strong> {{ travel.favorite_count }} 件</p>
+        <!-- 🔽 追加: 概算旅行費用 -->
+        {% if total_cost %}
+        <p><strong>旅行の概算費用:</strong> {{ total_cost | int | string | replace(',', ',') }} 円</p>
+        {% endif %}
         <!-- お気に入りボタン分岐ここから -->
-        {% if is_favorited %}
-        <form action="{{ url_for('favorite_bookmark.remove_favorite') }}" method="POST">
-          <input type="hidden" name="travel_id" value="{{ travel.id }}">
-          <button type="submit" class="favorite-button">♥ お気に入り解除</button>
-        </form>
+        {% if travel.is_favorited %}
+          <form action="{{ url_for('favorite_bookmark.remove_favorite') }}" method="POST">
+            <input type="hidden" name="travel_id" value="{{ travel.id }}">
+            <button type="submit" class="favorite-button">♥ お気に入り解除</button>
+          </form>
         {% else %}
-        <form action="{{ url_for('favorite_bookmark.add_favorite') }}" method="POST">
-          <input type="hidden" name="travel_id" value="{{ travel.id }}">
-          <button type="submit" class="favorite-button">♡ お気に入りに追加</button>
-        </form>
+          <form action="{{ url_for('favorite_bookmark.add_favorite') }}" method="POST">
+            <input type="hidden" name="travel_id" value="{{ travel.id }}">
+            <button type="submit" class="favorite-button">♡ お気に入りに追加</button>
+          </form>
         {% endif %}
         <!-- お気に入りボタン分岐ここまで -->
       </div>

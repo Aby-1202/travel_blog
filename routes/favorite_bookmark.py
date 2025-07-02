@@ -19,22 +19,43 @@ def favorite_bookmark():
 
     # ブックマークした旅行
     cursor.execute("""
-        SELECT travel_data.*, bookmark_data.id AS bookmark_id, bookmark_data.b_created_at AS bookmark_created_at
-        FROM travel_data
-        INNER JOIN bookmark_data ON travel_data.id = bookmark_data.t_id
-        WHERE bookmark_data.u_id = ?
-        ORDER BY bookmark_data.b_created_at DESC
+        SELECT
+            td.*,
+            bd.id               AS bookmark_id,
+            bd.b_created_at     AS bookmark_created_at,
+            -- 累計ブックマーク数
+            (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id) AS bookmark_count,
+            -- 累計いいね数
+            (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count
+        FROM travel_data td
+        INNER JOIN bookmark_data bd
+            ON td.id = bd.t_id
+        WHERE bd.u_id = ?
+        ORDER BY bd.b_created_at DESC
     """, (user_id,))
     bookmarked_travel_items = cursor.fetchall()
 
     # お気に入りした旅行
     cursor.execute("""
-        SELECT travel_data.*, favorites.created_at AS favorite_created_at
-        FROM travel_data
-        INNER JOIN favorites ON travel_data.id = favorites.t_id
-        WHERE favorites.u_id = ?
-        ORDER BY favorites.created_at DESC
-    """, (user_id,))
+        SELECT
+            td.*,
+            f.created_at   AS favorite_created_at,
+            -- 累計数
+            (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id) AS bookmark_count,
+            (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count,
+            -- このユーザーがブックマーク済みか
+            CASE WHEN EXISTS (
+                SELECT 1
+                FROM bookmark_data bd
+                WHERE bd.t_id = td.id
+                AND bd.u_id = ?
+            ) THEN 1 ELSE 0 END AS is_bookmarked
+        FROM travel_data td
+        INNER JOIN favorites f
+        ON td.id = f.t_id
+        WHERE f.u_id = ?
+        ORDER BY f.created_at DESC
+    """, (user_id, user_id))
     favorited_travel_items = cursor.fetchall()
 
     conn.close()

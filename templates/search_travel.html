@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>旅行検索</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <div class="header-top">
+        <h1 class="welcome-msg">旅行ブログを検索</h1>
+        <div class="user-actions">
+            <h1 class="welcome-msg">ようこそ、{{ username }} さん！</h1>
+            <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+            <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+        </div>
+    </div>
+
+    <!-- ナビゲーションリンク -->
+    {% set current = request.endpoint %}
+    <div class="nav-links">
+        <a href="{{ url_for('home.home') }}" class="{% if current == 'home.home' %}active{% endif %}">ホーム</a>
+        <a href="{{ url_for('my_travel.my_travel') }}"
+            class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
+        <a href="{{ url_for('locations.locations') }}"
+            class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
+        <a href="{{ url_for('input.input') }}"
+            class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('favorite_bookmark.favorite_bookmark') }}"
+            class="{% if current == 'favorite_bookmark.favorite_bookmark' %}active{% endif %}">ブックマーク</a>
+        <a href="{{ url_for('search_travel.search_travel') }}"
+            class="{% if current == 'search_travel.search_travel' %}active{% endif %}">旅行検索</a>
+    </div>
+
+    <div class="container">
+        <div class="left-panel">
+
+            <!-- 検索フォーム -->
+            <div class="sticky-header">
+                <h2>検索キーワードで探す</h2>
+                <form method="POST" action="{{ url_for('search_travel.search_travel') }}">
+                    <input
+                        type="text"
+                        name="query"
+                        placeholder="キーワードを入力"
+                        value="{{ query or '' }}"
+                        required
+                    >
+                    <button type="submit">検索</button>
+                </form>
+            </div>
+
+            <!-- 検索結果 -->
+            <h3>検索結果</h3>
+            {% if travel_data_list %}
+                <section class="plan-list">
+                    {% for travel in travel_data_list %}
+                        <div class="plan-card horizontal-card">
+                            <div class="card-left">
+                                <a href="{{ url_for('detail.detail', travel_id=travel.id) }}" class="custom-link">
+                                    <h3>{{ travel.t_title }}</h3>
+                                    <p><strong>場所:</strong> {{ travel.t_location }}</p>
+                                    <p><strong>概要:</strong> {{ travel.overview[:80] }}{% if travel.overview|length > 80 %}...{% endif %}</p>
+                                    <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+                                </a>
+                            </div>
+                            {% if travel.image_path %}
+                                <div class="card-image">
+                                    <img src="{{ url_for('static', filename='uploads/' ~ travel.image_path) }}" alt="旅行画像">
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </section>
+            {% else %}
+                <p class="no-data">該当する旅行が見つかりませんでした。</p>
+            {% endif %}
+
+        </div>
+    </div>
+</body>
+</html>

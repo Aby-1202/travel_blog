@@ -18,11 +18,18 @@ def my_travel():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT travel_data.*, users_table.u_name AS username
-        FROM travel_data
-        JOIN users_table ON travel_data.u_id = users_table.id
-        WHERE travel_data.u_id = ?
-        ORDER BY travel_data.start_date DESC
+        SELECT
+            td.*,
+            ut.u_name        AS username,
+            -- 累計ブックマーク数
+            (SELECT COUNT(*) FROM bookmark_data WHERE t_id = td.id) AS bookmark_count,
+            -- 累計いいね数
+            (SELECT COUNT(*) FROM favorites     WHERE t_id = td.id) AS favorite_count
+        FROM travel_data td
+        JOIN users_table ut
+            ON td.u_id = ut.id
+        WHERE td.u_id = ?
+        ORDER BY td.start_date DESC
     """, (user_id,))
     travel_data_list = cursor.fetchall()
     conn.close()
