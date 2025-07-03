@@ -224,3 +224,30 @@ body {
 .bookmark-form {
     margin-top: auto;  
 }
+
+/* plan.html */
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 10px 20px 10px;
+}
+
+.plan-header h2 {
+    margin: 0;
+    font-size: 1.6em;
+}
+
+.add-plan-link {
+    padding: 8px 12px;
+    background-color: #1e88e5;  /* 青系 */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.add-plan-link:hover {
+    background-color: #1565c0;
+}
