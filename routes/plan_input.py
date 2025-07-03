@@ -70,7 +70,7 @@ def plan_input():
 
     username = session.get('username', 'ゲスト')
     user_id = session['user_id']
-    print(f"DEBUG: /input called by user_id={user_id}")
+    print(f"DEBUG: /plan_input called by user_id={user_id}")
 
     if request.method == 'POST':
         title = request.form.get('title')
@@ -83,7 +83,7 @@ def plan_input():
         # 必須項目チェック
         if not title or not location or not human_number or not start_date or not end_date:
             flash("タイトル、場所、人数、開始日、終了日は必須です")
-            return render_template('input.html', username=username)
+            return render_template('plan_input.html', username=username)
 
         # 画像ファイルの処理
         image_filename = None
@@ -98,7 +98,7 @@ def plan_input():
             except Exception:
                 traceback.print_exc()
                 flash("画像の保存に失敗しました")
-                return render_template('input.html', username=username)
+                return render_template('plan_input.html', username=username)
 
         try:
             # 緯度経度の取得
@@ -106,7 +106,7 @@ def plan_input():
             print(f"DEBUG: get_location_info({location}) -> ({latitude}, {longitude})")
             if latitude is None or longitude is None:
                 flash("場所の緯度経度が見つかりませんでした")
-                return render_template('input.html', username=username)
+                return render_template('plan_input.html', username=username)
 
             # DB接続：絶対パスを使う
             conn = sqlite3.connect(DB_PATH)
@@ -141,6 +141,6 @@ def plan_input():
             flash(f"エラーが発生しました: {e}")
             # 失敗時にも DB_PATH が正しいかなどログに出しておく
             print(f"DEBUG: 使用 DB_PATH = {DB_PATH}")
-            return render_template('input.html', username=username)
+            return render_template('plan_input.html', username=username)
 
-    return render_template('input.html', username=username)
+    return render_template('plan_input.html', username=username)
