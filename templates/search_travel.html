@@ -26,6 +26,8 @@
             class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
         <a href="{{ url_for('input.input') }}"
             class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('plan.plan') }}"
+            class="{% if current == 'plan.plan' %}active{% endif %}">旅行の計画を立てる</a>
         <a href="{{ url_for('favorite_bookmark.favorite_bookmark') }}"
             class="{% if current == 'favorite_bookmark.favorite_bookmark' %}active{% endif %}">ブックマーク</a>
         <a href="{{ url_for('search_travel.search_travel') }}"
