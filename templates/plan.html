@@ -48,6 +48,12 @@
 
     <!--画像が汚いので一旦コメントの状況にしてある-->
 
+    <!-- タイトルと新規作成リンク -->
+    <div class="plan-header">
+        <h2>計画中の旅行プラン</h2>
+        <a href="{{ url_for('plan_input.plan_input') }}" class="add-plan-link"> 新しくプラン立てる</a>
+    </div>
+
     <!-- 旅プラン一覧 -->
     <section class="plan-list">
         {% if travel_data_list is defined and travel_data_list %}
@@ -58,36 +64,16 @@
                     <h3>{{ travel.t_title }}</h3>
                     <p><strong>場所:</strong> {{ travel.t_location }}</p>
                     <p><strong>人数:</strong> {{ travel.human_number }}人</p>
+                                        <p><strong>開始日:</strong> {{ travel.start_date }}</p>
+                    <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
                     <p>
                         <strong>概要:</strong>
                         {{ travel.overview[:80] }}
                         {% if travel.overview|length > 80 %}...{% endif %}
                     </p>
-                    <p><strong>開始日:</strong> {{ travel.start_date }}</p>
-                    <p><strong>期間:</strong> {{ travel.duration_days }}日間</p>
-                    <p><strong>作成者:</strong> {{ travel.username }}</p>
-                    <p><strong>ブックマーク数:</strong> {{ travel.bookmark_count }} 件</p>
-                    <p><strong>お気に入り数:</strong> {{ travel.favorite_count }} 件</p>
                 </a>
-            <!-- ブックマークボタン：状態によって切り替え -->
-                {% if travel.is_bookmarked %}
-                <form action="{{ url_for('favorite_bookmark.remove_bookmark') }}" method="POST" class="bookmark-form">
-                    <input type="hidden" name="travel_id" value="{{ travel.id }}">
-                    <button type="submit" class="bookmark-button">ブックマーク解除</button>
-                </form>
-                {% else %}
-                <form action="{{ url_for('favorite_bookmark.add_bookmark') }}" method="POST" class="bookmark-form">
-                    <input type="hidden" name="travel_id" value="{{ travel.id }}">
-                    <button type="submit" class="bookmark-button">ブックマーク</button>
-                </form>
-                {% endif %}
             </div>
-            {% if travel.image_path %}
-            <div class="card-image">
-                <img src="{{ url_for('static', filename='uploads/' ~ travel.image_path) }}" alt="旅行画像">
-            </div>
-            {% endif %}
-        </div>        
+        </div>
         {% endfor %}
         {% else %}
         <p class="no-data">旅行データが登録されていません。</p>

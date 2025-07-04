@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>旅行投稿フォーム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='input.css') }}">
+</head>
+
+<body>
+
+    <!-- ヘッダー情報（ユーザー名 + ログアウト + ユーザー情報） -->
+    <div class="header-top">
+        <h1 class="welcome-msg">旅行記録ブログ</h1>
+        <div class="user-actions">
+            <h1 class="welcome-msg">ようこそ、{{ username }} さん！</h1>
+            <a href="{{ url_for('users_data.users_data') }}">ユーザー情報</a>
+            <a href="{{ url_for('auth.logout') }}">ログアウト</a>
+        </div>
+    </div>
+
+    <!-- ナビゲーションリンク -->
+    {% set current = request.endpoint %}
+    <div class="nav-links">
+        <a href="{{ url_for('home.home') }}" class="{% if current == 'home.home' %}active{% endif %}">ホーム</a>
+        <a href="{{ url_for('my_travel.my_travel') }}"
+            class="{% if current == 'my_travel.my_travel' %}active{% endif %}">MYトラベル</a>
+        <a href="{{ url_for('locations.locations') }}"
+            class="{% if current == 'locations.locations' %}active{% endif %}">地図で旅行先を見る</a>
+        <a href="{{ url_for('input.input') }}"
+            class="{% if current == 'input.input' %}active{% endif %}">別ページで旅を投稿する</a>
+        <a href="{{ url_for('plan.plan') }}"
+            class="{% if current == 'plan.plan' %}active{% endif %}">旅行の計画を立てる</a>
+        <a href="{{ url_for('favorite_bookmark.favorite_bookmark') }}"
+            class="{% if current == 'favorite_bookmark.favorite_bookmark' %}active{% endif %}">ブックマーク</a>
+        <a href="{{ url_for('search_travel.search_travel') }}"
+            class="{% if current == 'search_travel.search_travel' %}active{% endif %}">旅行検索</a>
+    </div>
+
+    <h1>プランの作成</h1>
+    <form method="POST" action="/input" enctype="multipart/form-data">
+        <label for="title">タイトル:</label><br>
+        <input type="text" id="title" name="title" maxlength="25" required><br><br>
+
+        <label for="location">場所:</label><br>
+        <input type="text" id="location" name="location" maxlength="25" required><br><br>
+
+        <label for="start_date">旅行開始日:</label><br>
+        <input type="date" id="start_date" name="start_date" required><br><br>
+
+        <label for="end_date">旅行終了日:</label><br>
+        <input type="date" id="end_date" name="end_date" required><br><br>
+
+        <label for="human_number">人数:</label><br>
+        <input type="number" id="human_number" name="human_number" min="1" required><br><br>
+
+        <label for="overview">概要:</label><br>
+        <textarea id="overview" name="overview" rows="4" cols="40" maxlength="500"></textarea><br><br>
+
+        <input type="submit" value="登録">
+    </form>
+
+</body>
+
+</html>
